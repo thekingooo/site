@@ -1,19 +1,22 @@
 "use client";
 
-import { Component, useEffect, useMemo, useRef, type ReactNode } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows } from "@react-three/drei";
+import {
+  Component,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  type ReactNode,
+} from "react";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { ContactShadows, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { sceneState } from "@/lib/timeline";
 import { scenes } from "@/lib/content";
-import {
-  createMaterials,
-  buildShell,
-  buildBase,
-  buildEngineering,
-  interiorBuilders,
-} from "./model";
+import { createMaterials, interiorBuilders } from "./model";
+import { useDetailedArchitecture } from "./DetailedArchitecture";
+import { StudioPostprocessing } from "./StudioPostprocessing";
 
 export interface ExperienceProps {
   progress: React.RefObject<number>;
@@ -23,6 +26,8 @@ export interface ExperienceProps {
   lowPower: boolean;
   onReady: () => void;
   onError: () => void;
+  interactive?: boolean;
+  onLowPower?: () => void;
 }
 
 class CanvasBoundary extends Component<
@@ -43,24 +48,30 @@ class CanvasBoundary extends Component<
 
 function Studio({ lowPower }: { lowPower: boolean }) {
   const { gl, scene, camera, size } = useThree();
+  const hdr = useLoader(RGBELoader, "/models/studio.hdr");
   useEffect(() => {
     const pmrem = new THREE.PMREMGenerator(gl);
-    const room = new RoomEnvironment();
-    const target = pmrem.fromScene(room, 0.03);
+    const target = pmrem.fromEquirectangular(hdr);
     scene.environment = target.texture;
     scene.environmentIntensity = 0.5;
     return () => {
       scene.environment = null;
       target.dispose();
-      room.dispose();
       pmrem.dispose();
     };
-  }, [gl, scene]);
+  }, [gl, scene, hdr]);
   useEffect(() => {
-    const c = camera as THREE.OrthographicCamera;
-    c.zoom = Math.min(size.width / 11.7, size.height / 8.1);
-    c.position.set(11, 8.5, 13);
-    c.lookAt(0, 1.65, 0);
+    const c = camera as THREE.PerspectiveCamera;
+    c.position.set(11.5, 3.9, 13);
+    const target = new THREE.Vector3(0, 2.6, 0);
+    const distance = c.position.distanceTo(target);
+    c.fov = Math.max(
+      34,
+      THREE.MathUtils.radToDeg(
+        2 * Math.atan(6.1 / ((size.width / size.height) * distance)),
+      ),
+    );
+    c.lookAt(target);
     c.updateProjectionMatrix();
   }, [camera, size]);
   return (
@@ -79,22 +90,26 @@ function Studio({ lowPower }: { lowPower: boolean }) {
         shadow-normalBias={0.04}
       />
       <directionalLight position={[6, 6, -5]} intensity={1.8} color="#acbab6" />
-      <rectAreaLight
-        position={[0, 3, 3]}
-        rotation={[-0.5, 0, 0]}
-        width={6}
-        height={3}
-        intensity={2.8}
-        color="#e0b78c"
-      />
-      <rectAreaLight
-        position={[-4, 2, 0]}
-        rotation={[0, -Math.PI / 2, 0]}
-        width={3}
-        height={4}
-        intensity={2.1}
-        color="#eece9d"
-      />
+      {!lowPower && (
+        <rectAreaLight
+          position={[0, 3, 3]}
+          rotation={[-0.5, 0, 0]}
+          width={6}
+          height={3}
+          intensity={2.8}
+          color="#e0b78c"
+        />
+      )}
+      {!lowPower && (
+        <rectAreaLight
+          position={[-4, 2, 0]}
+          rotation={[0, -Math.PI / 2, 0]}
+          width={3}
+          height={4}
+          intensity={2.1}
+          color="#eece9d"
+        />
+      )}
       {!lowPower && (
         <ContactShadows
           position={[0, -1.02, 0]}
@@ -116,21 +131,27 @@ export function ArchitecturalCube({
   renderProgress,
   reducedMotion,
   exploded,
+  lowPower,
   onReady,
-}: Omit<ExperienceProps, "lowPower" | "onError">) {
+}: Omit<ExperienceProps, "onError">) {
+  const detailed = useDetailedArchitecture(lowPower);
   const model = useMemo(() => {
     const materials = createMaterials();
     return {
       materials,
-      shell: buildShell(materials),
-      base: buildBase(materials),
-      engineering: buildEngineering(materials),
-      interiors: interiorBuilders.map((build) => build(materials)),
+      shell: detailed.shell,
+      base: detailed.base,
+      engineering: detailed.engineering,
+      interiors: interiorBuilders.map((build, i) =>
+        i === 2 ? detailed.office : build(materials),
+      ),
     };
-  }, []);
+  }, [detailed]);
   const root = useRef<THREE.Group>(null);
-  const engineering = useRef<THREE.Group>(null);
-  const base = useRef<THREE.Group>(null);
+  const engineering = useRef<THREE.Object3D>(null);
+  const base = useRef<THREE.Object3D>(null);
+  const roofRestHeight = detailed.roofRestHeight;
+  const baseRestHeight = detailed.baseRestHeight;
   const sceneLight = useRef<THREE.PointLight>(null);
   const animatedExplosion = useRef(0);
   const { gl, invalidate } = useThree();
@@ -138,7 +159,7 @@ export function ArchitecturalCube({
     invalidate();
   }, [renderProgress, reducedMotion, exploded, invalidate]);
   useEffect(() => {
-    // Procedural geometry is mounted; there are no network models to wait for.
+    // The locally hosted GLBs and all embedded light atlases are loaded.
     onReady();
   }, [gl, onReady]);
   useFrame((_, delta) => {
@@ -146,6 +167,8 @@ export function ArchitecturalCube({
     if (root.current) root.current.rotation.y = s.rotation;
     gl.domElement.dataset.rotation = s.rotation.toFixed(5);
     gl.domElement.dataset.scene = String(s.index);
+    gl.domElement.dataset.geometry =
+      s.index === 2 ? "blender-office" : "hybrid";
     model.interiors.forEach((interior, i) => {
       const weight = reducedMotion
         ? i === s.index
@@ -170,9 +193,11 @@ export function ArchitecturalCube({
     if (Math.abs(animatedExplosion.current - targetExplosion) > 0.001)
       invalidate();
     if (engineering.current)
-      engineering.current.position.y = 3.9 + animatedExplosion.current;
+      engineering.current.position.y =
+        roofRestHeight + animatedExplosion.current;
     if (base.current)
-      base.current.position.y = -animatedExplosion.current * 0.3;
+      base.current.position.y =
+        baseRestHeight - animatedExplosion.current * 0.3;
     if (sceneLight.current) {
       const color = new THREE.Color(scenes[s.from].color).lerp(
         new THREE.Color(scenes[s.to].color),
@@ -185,12 +210,8 @@ export function ArchitecturalCube({
   return (
     <group ref={root}>
       <primitive object={model.shell} />
-      <group ref={base}>
-        <primitive object={model.base} />
-      </group>
-      <group ref={engineering} position={[0, 3.9, 0]}>
-        <primitive object={model.engineering} />
-      </group>
+      <primitive ref={base} object={model.base} />
+      <primitive ref={engineering} object={model.engineering} />
       {model.interiors.map((interior, i) => (
         <primitive object={interior} key={i} visible={i === 0} />
       ))}
@@ -217,8 +238,7 @@ export default function ExperienceCanvas(props: ExperienceProps) {
     <CanvasBoundary onError={props.onError}>
       <Canvas
         frameloop="demand"
-        orthographic
-        camera={{ position: [11, 8.5, 13], zoom: 60, near: 0.1, far: 100 }}
+        camera={{ position: [11.5, 3.9, 13], fov: 34, near: 0.1, far: 100 }}
         dpr={props.lowPower ? 0.85 : [1, 1.6]}
         shadows={!props.lowPower}
         gl={{
@@ -235,13 +255,37 @@ export default function ExperienceCanvas(props: ExperienceProps) {
             "Трёхмерный архитектурный разрез коммерческого помещения",
           );
           gl.domElement.setAttribute("role", "img");
+          const context = gl.getContext();
+          const debug = context.getExtension("WEBGL_debug_renderer_info");
+          if (
+            debug &&
+            /swiftshader|llvmpipe|software/i.test(
+              String(context.getParameter(debug.UNMASKED_RENDERER_WEBGL)),
+            )
+          )
+            props.onLowPower?.();
           gl.domElement.addEventListener("webglcontextlost", props.onError, {
             once: true,
           });
         }}
       >
-        <Studio lowPower={props.lowPower} />
-        <ArchitecturalCube {...props} />
+        <Suspense fallback={null}>
+          <Studio lowPower={props.lowPower} />
+          <ArchitecturalCube {...props} />
+          {props.interactive && (
+            <OrbitControls
+              makeDefault
+              target={[0, 2.6, 0]}
+              enablePan={false}
+              enableDamping={!props.lowPower}
+              minDistance={11}
+              maxDistance={28}
+              minPolarAngle={Math.PI * 0.2}
+              maxPolarAngle={Math.PI * 0.58}
+            />
+          )}
+          <StudioPostprocessing lowPower={props.lowPower} />
+        </Suspense>
       </Canvas>
     </CanvasBoundary>
   );

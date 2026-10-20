@@ -26,6 +26,9 @@ export function useScrollScene(track: RefObject<HTMLElement | null>) {
   }, []);
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+    // Keep the scrub tied to elapsed time on slow / software WebGL devices.
+    // GSAP's default lag cap can otherwise stretch a 0.65 s scrub for seconds.
+    gsap.ticker.lagSmoothing(0);
     if (!track.current) return;
     const state = { value: 0 };
     const tween = gsap.to(state, {
@@ -48,6 +51,16 @@ export function useScrollScene(track: RefObject<HTMLElement | null>) {
       },
     });
     trigger.current = tween.scrollTrigger!;
+    const selected = new URLSearchParams(window.location.search).get("space");
+    const sceneIds = ["restaurant", "retail", "office", "bank", "clinic"];
+    const requested = selected ? sceneIds.indexOf(selected) : -1;
+    if (requested >= 0) {
+      const t = trigger.current;
+      window.scrollTo({
+        top: t.start + ((t.end - t.start) * requested) / 4,
+        behavior: "instant",
+      });
+    }
     return () => {
       trigger.current = null;
       tween.scrollTrigger?.kill();

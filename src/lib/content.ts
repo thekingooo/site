@@ -53,7 +53,7 @@ export const scenes = [
       "Акустический комфорт",
     ],
     color: "#c7d1ca",
-    image: "/images/office.jpg",
+    image: "/images/office-model-review.jpg",
   },
   {
     id: "bank",

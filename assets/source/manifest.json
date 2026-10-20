@@ -1,0 +1,14 @@
+[
+  {
+    "file": "wood-diffuse.jpg",
+    "url": "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/hardwood2_diffuse.jpg",
+    "sha256": "3986fe3bd7d3c24b18e7da17ae72bbef9385dbc355c931c52a04dbfe1412c802",
+    "license": "MIT, three.js project"
+  },
+  {
+    "file": "lebombo.hdr",
+    "url": "https://raw.githubusercontent.com/pmndrs/drei-assets/master/hdri/lebombo_1k.hdr",
+    "sha256": "a02c9615adeba91a753c3e4737c3ce7a719273df822eeaa85d24982bd43c9ecb",
+    "license": "CC0, Poly Haven / Greg Zaal"
+  }
+]

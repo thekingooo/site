@@ -13,7 +13,11 @@ test("3D scene completes all states and reverses; engineering layers respond", a
   await expect(page.locator("canvas")).toBeVisible();
   // Software WebGL in CI: exercise the same geometry and timeline with a
   // smaller render target. HQ is inspected separately on desktop.
-  await page.getByRole("button", { name: "HQ", exact: true }).click();
+  const hq = page.getByRole("button", { name: "HQ", exact: true });
+  if (await hq.count()) await hq.click();
+  await expect(
+    page.getByRole("button", { name: "Эко", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
   const scenes = ["restaurant", "retail", "office", "bank", "clinic"];
   let firstFrame: Buffer | undefined;
   let lastFrame: Buffer | undefined;
@@ -78,7 +82,9 @@ test("project filters, project page and service details work", async ({
     "Инженерные системы",
   );
   await expect(
-    page.getByRole("listitem").filter({ hasText: "Вентиляция и кондиционирование" }),
+    page
+      .getByRole("listitem")
+      .filter({ hasText: "Вентиляция и кондиционирование" }),
   ).toBeVisible();
 });
 
@@ -227,4 +233,56 @@ test("WebGL failure displays navigable image fallbacks", async ({ page }) => {
     "src",
     "/images/retail.jpg",
   );
+});
+
+test("new office GLBs support direct navigation and reference comparison", async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/?space=office");
+  await expect(page.locator(".experience")).toHaveAttribute(
+    "data-scene",
+    "office",
+  );
+  await expect(page.locator("canvas")).toHaveAttribute(
+    "data-geometry",
+    "blender-office",
+  );
+  await page.goto("/model-review");
+  await expect(page.locator("canvas")).toHaveAttribute(
+    "data-geometry",
+    "blender-office",
+  );
+  const hq = page.getByRole("button", { name: "HQ", exact: true });
+  if (await hq.count()) await hq.click();
+  await expect(
+    page.getByRole("button", { name: "Эко", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Раздвинуть слои" }).click();
+  await expect(
+    page.getByRole("button", { name: "Собрать слои" }),
+  ).toHaveAttribute("aria-pressed", "true");
+  const canvas = page.locator("canvas");
+  const before = await canvas.screenshot();
+  const box = await canvas.boundingBox();
+  if (!box) throw new Error("Missing 3D canvas");
+  await page.mouse.move(box.x + box.width * 0.45, box.y + box.height * 0.55);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.7, box.y + box.height * 0.55, {
+    steps: 12,
+  });
+  await page.mouse.up();
+  const after = await canvas.screenshot();
+  expect(before.equals(after)).toBe(false);
+  await page
+    .getByLabel("Открыть референс", { exact: true })
+    .setInputFiles("public/images/office-model-review.jpg");
+  await expect(page.getByAltText("Загруженный вами референс")).toHaveAttribute(
+    "src",
+    /^blob:/,
+  );
+  expect(errors).toEqual([]);
 });

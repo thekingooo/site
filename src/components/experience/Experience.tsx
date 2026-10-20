@@ -26,6 +26,7 @@ export function Experience() {
   const [lowPower, setLowPower] = useState(false);
   const [info, setInfo] = useState<number | null>(null);
   const onReady = useCallback(() => setReady(true), []);
+  const onLowPower = useCallback(() => setLowPower(true), []);
   const onError = useCallback(() => {
     setFallback(true);
     setReady(true);
@@ -79,6 +80,7 @@ export function Experience() {
               lowPower={lowPower}
               onReady={onReady}
               onError={onError}
+              onLowPower={onLowPower}
             />
           )}
         </div>

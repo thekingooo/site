@@ -8,3 +8,8 @@ out/
 test-results/
 playwright-report/
 next-env.d.ts
+*.blend
+*.blend1
+*.exr
+core
+core.*
