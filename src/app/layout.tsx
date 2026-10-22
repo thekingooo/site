@@ -3,6 +3,8 @@ import "@fontsource/manrope/cyrillic-400.css";
 import "@fontsource/manrope/cyrillic-500.css";
 import "@fontsource/manrope/latin-400.css";
 import "@fontsource/manrope/latin-500.css";
+import "@fontsource/manrope/cyrillic-800.css";
+import "@fontsource/manrope/latin-800.css";
 import "@fontsource/cormorant-garamond/cyrillic-400.css";
 import "@fontsource/cormorant-garamond/latin-400.css";
 import "./globals.css";

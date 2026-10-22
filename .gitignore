@@ -13,3 +13,6 @@ next-env.d.ts
 *.exr
 core
 core.*
+
+# Generated standalone review file
+/preview.html
