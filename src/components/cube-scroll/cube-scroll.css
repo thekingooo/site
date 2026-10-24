@@ -7,3 +7,23 @@
 .cs-visual{mix-blend-mode:lighten}.cs-copy h1 em{color:inherit}
 @media(max-width:700px){.cs-copy h1 br:nth-of-type(2){display:initial}.cs-copy h1{font-size:clamp(46px,13.3vw,65px)}}
 @media(max-width:700px) and (max-height:740px){.cs-copy h1{font-size:44px}}
+/* The new portrait-like films keep the architecture large without covering the title. */
+.cs-visual{left:35%;right:-3%;top:9%;bottom:10%}
+.cs-film-top{left:13%;right:9%;top:4%}
+.cs-copy{top:21%;width:42%}
+.cs-copy h1{font-size:clamp(66px,6.35vw,108px)}
+.cs-film-caption{bottom:1%;right:9%}
+.cs-types button small{font-size:8px;color:#a77859;letter-spacing:.12em}
+.cs-types button{gap:15px;padding:8px 0}
+.cs-types button>span{margin-left:20px}
+.cs-project-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+.cs-project-image{aspect-ratio:1.35}
+.cs-project-image img{mix-blend-mode:lighten}
+.cs-directions{padding:33px 4.3vw;display:flex;justify-content:space-between;gap:25px;border-top:1px solid var(--cs-line);color:#c9c7bd;font-size:13px}
+.cs-directions>span{display:flex;align-items:center;gap:14px;white-space:nowrap}
+.cs-directions small{font-size:8px;color:#a77d61}
+.cs-section-heading h2{font-size:clamp(42px,4.1vw,68px)}
+@media(max-width:1100px) and (min-width:701px){.cs-copy h1{font-size:6.8vw}.cs-visual{left:34%;right:-7%}.cs-directions{font-size:11px;gap:15px}.cs-directions>span{gap:8px}}
+@media(min-width:701px) and (max-height:800px){.cs-copy{top:20%}.cs-copy h1{font-size:clamp(58px,5.7vw,86px)}}
+@media(max-width:700px){.cs-copy{top:102px;left:23px;right:23px;width:auto}.cs-copy h1{font-size:clamp(46px,13.3vw,65px)}.cs-visual{left:-3%;right:-3%;top:44%;bottom:13%}.cs-film-caption{right:30px;bottom:0}.cs-types button{font-size:11px;padding:0}.cs-types button>span{margin-left:10px}.cs-project-grid{grid-template-columns:1fr}.cs-directions{padding:24px 23px;display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:11px}.cs-directions>span{gap:10px}.cs-section-heading h2{font-size:41px}}
+@media(max-width:700px) and (max-height:740px){.cs-copy{top:87px}.cs-copy h1{font-size:42px}.cs-visual{top:42%;bottom:15%}.cs-film-caption{display:none}}

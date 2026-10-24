@@ -1,8 +1,8 @@
 'use client';
 import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 
-const FPS = 24;
-export function useVideoScroll(track: RefObject<HTMLElement | null>, video: RefObject<HTMLVideoElement | null>) {
+
+export function useVideoScroll(track: RefObject<HTMLElement | null>, video: RefObject<HTMLVideoElement | null>, fps = 30) {
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(false);
@@ -30,10 +30,10 @@ export function useVideoScroll(track: RefObject<HTMLElement | null>, video: RefO
     let raf = 0, last = 0, seeking = false, disposed = false;
     const seek = () => {
       if (disposed || seeking || player.readyState < 1 || !Number.isFinite(player.duration)) return;
-      // Match exact 24 fps frame timestamps, including the last decoded frame.
-      const lastFrame = Math.max(0, Math.round(player.duration * FPS) - 1);
-      const time = Math.round(displayed.current * lastFrame) / FPS;
-      if (Math.abs(player.currentTime - time) < 1 / (FPS * 2)) return;
+      // Match exact source frame timestamps, including the last decoded frame.
+      const lastFrame = Math.max(0, Math.round(player.duration * fps) - 1);
+      const time = Math.round(displayed.current * lastFrame) / fps;
+      if (Math.abs(player.currentTime - time) < 1 / (fps * 2)) return;
       seeking = true; player.currentTime = time;
     };
     const tick = (now: number) => {
@@ -71,6 +71,6 @@ export function useVideoScroll(track: RefObject<HTMLElement | null>, video: RefO
       player.removeEventListener('seeked', seeked); player.removeEventListener('error', failed);
       window.removeEventListener('scroll', scroll); window.removeEventListener('resize', scroll);
     };
-  }, [track, video, reducedMotion]);
+  }, [track, video, reducedMotion, fps]);
   return { progress, ready, error, reducedMotion, setPosition };
 }

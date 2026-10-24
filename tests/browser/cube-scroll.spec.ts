@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 async function ready(page:Page){await page.goto('/');await page.waitForFunction(()=>{const v=document.querySelector('video');return v&&v.readyState>=2;});}
 async function seek(page:Page,p:number){
  await page.getByRole('slider',{name:'Вращение пространства'}).fill(String(p*1000));
- await expect.poll(()=>page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBeCloseTo(Math.round(p*123)/24,4);
+ await expect.poll(()=>page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBeCloseTo(Math.round(p*160)/30,4);
  await expect.poll(()=>page.locator('video').evaluate((v: HTMLVideoElement)=>v.seeking)).toBe(false);
 }
 async function frame(page:Page){return page.locator('video').evaluate((v: HTMLVideoElement)=>{const canvas=document.createElement('canvas');canvas.width=v.videoWidth;canvas.height=v.videoHeight;canvas.getContext('2d')!.drawImage(v,0,0);return canvas.toDataURL();});}
@@ -17,7 +17,7 @@ test('scroll scrubs the provided video forwards and backwards without playback o
  await page.waitForTimeout(300);expect(await page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBe(0);
  const dimensions=await page.locator('.cs-track').evaluate(e=>({top:e.getBoundingClientRect().top+scrollY,length:e.clientHeight-innerHeight}));
  await page.evaluate(({top,length})=>window.scrollTo({top:top+length*.7,behavior:'instant'}),dimensions);
- await expect.poll(()=>page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBeCloseTo(Math.round(.7*123)/24,2);
+ await expect.poll(()=>page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBeCloseTo(Math.round(.7*160)/30,2);
  expect((await page.locator('.cs-hero').boundingBox())!.y).toBeCloseTo(0,0);
  await page.evaluate(({top,length})=>window.scrollTo({top:top+length+450,behavior:'instant'}),dimensions);
  await expect(page.locator('#projects')).toBeInViewport();expect((await page.locator('.cs-hero').boundingBox())!.y).toBeLessThan(0);
@@ -30,7 +30,7 @@ test('mobile reduced motion keeps the scene still and supports accessible frame 
  await page.getByRole('button',{name:'Открыть меню'}).click();await expect(page.getByRole('navigation',{name:'Основная навигация'})).toBeVisible();
  await page.getByRole('button',{name:'Закрыть меню'}).click();
  const slider=page.getByRole('slider');await expect(slider).toBeInViewport();await slider.focus();await page.keyboard.press('End');
- await expect.poll(()=>page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBe(5.125);
+ await expect.poll(()=>page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBeCloseTo(160/30,4);
  await page.keyboard.press('Home');await expect.poll(()=>page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBe(0);
  await page.evaluate(()=>scrollTo({top:500,behavior:'instant'}));await page.waitForTimeout(200);
  expect(await page.locator('video').evaluate((v: HTMLVideoElement)=>v.currentTime)).toBe(0);
