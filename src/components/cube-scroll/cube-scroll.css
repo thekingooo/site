@@ -72,3 +72,28 @@
 .cs-contact-details address{font-size:13px;color:#a6aaa0;font-style:normal;line-height:1.9;margin:4px 0 12px}
 .cs-contact-details>a:not(.cs-button):hover{color:#d0a78a}
 @media(max-width:700px){.cs-brand img{width:145px}.cs-header nav{margin-left:0}.cs-footer .cs-brand img{width:130px}.cs-about .cs-about-intro{font-size:13px}.cs-company-facts{gap:15px;margin:35px auto}.cs-company-facts strong{font-size:44px}.cs-company-facts span{font-size:10px;line-height:1.6}.cs-clients{margin-top:40px}.cs-clients>div{font-size:14px;gap:20px 25px}.cs-contact-details .cs-phone-secondary{font-size:19px}}
+
+/* Transparent architecture, with an independent light field behind it. */
+.cs-hero{--cs-cube-scale:1.08;--cs-pointer-x:0;--cs-pointer-y:0;--cs-glow:191,139,91}
+.cs-hero[data-scene="office"]{--cs-glow:151,168,164}
+.cs-hero[data-scene="salon"]{--cs-glow:183,158,112}
+.cs-hero[data-scene="clinic"]{--cs-glow:136,175,191}
+.cs-scene-perspective{perspective:1150px}
+.cs-scene-image{-webkit-mask-image:none;mask-image:none}
+.cs-scene-glow{position:absolute;inset:6% 3% 3% 5%;pointer-events:none;background:radial-gradient(ellipse at 52% 48%,rgba(var(--cs-glow),.24) 0%,rgba(var(--cs-glow),.13) 29%,rgba(var(--cs-glow),.04) 49%,transparent 71%);transform:translate3d(calc(var(--cs-pointer-x) * -13px),calc(var(--cs-pointer-y) * -9px),0);will-change:transform}
+.cs-project-image{background:radial-gradient(ellipse at 50% 55%,#b9885b1f,transparent 70%),#111313}
+.cs-project-image img{mix-blend-mode:normal}
+.cs-project-dialog>img{background:radial-gradient(ellipse at 50% 55%,#b9885b26,transparent 70%),#141616}
+@media(max-width:700px){.cs-hero{--cs-cube-scale:1.06}.cs-scene-glow{inset:0 0 -2%}}
+@media(prefers-reduced-motion:reduce){.cs-scene-plane{transform:scale(var(--cs-cube-scale))!important}.cs-scene-glow{transform:none;will-change:auto}}
+/* Add the two weighted cutouts inside their own compositing group, so neither
+   the outgoing silhouette nor its opaque interior leaks through the next one. */
+.cs-scene-plane{isolation:isolate}
+.cs-scene-image{mix-blend-mode:plus-lighter}
+@media(min-width:701px){.cs-visual{left:36%;right:2%}}
+.cs-scene-glow{inset:-10% -12% -12%;background:radial-gradient(ellipse at 52% 48%,rgba(var(--cs-glow),.28) 0%,rgba(var(--cs-glow),.17) 36%,rgba(var(--cs-glow),.075) 58%,transparent 75%)}
+@media(max-width:1100px) and (min-width:701px){.cs-visual{left:39%;right:1%}}
+@media(max-width:700px){.cs-scene-glow{inset:-6% -8%}}
+@media(max-width:700px){.cs-visual{left:0;right:0}}
+@media(max-width:700px) and (min-height:741px){.cs-visual{top:48%}}
+@media(max-width:700px) and (max-height:620px){.cs-visual{top:303px}}

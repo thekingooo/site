@@ -6,7 +6,7 @@ import spaces from '../../lib/cube-spaces.json';
 import './cube-scroll.css';
 
 export type CubeAssets = { posters: string[]; logo: string };
-const defaultAssets: CubeAssets = { logo: '/images/brand/fp-group.svg', posters: spaces.map(chapter => `/images/spaces/${chapter.id}.jpg`) };
+const defaultAssets: CubeAssets = { logo: '/images/brand/fp-group.svg', posters: spaces.map(chapter => `/images/cutouts/${chapter.id}.webp`) };
 const directions = ['Кафе', 'Офисы', 'Салоны красоты', 'Клиники', 'Отели'];
 export function CubeScrollDemo({ assets = defaultAssets }: { assets?: CubeAssets }) {
   const track = useRef<HTMLElement>(null), hero = useRef<HTMLDivElement>(null), surface = useRef<HTMLDivElement>(null);
@@ -44,7 +44,7 @@ export function CubeScrollDemo({ assets = defaultAssets }: { assets?: CubeAssets
   const bottom = loaded[base] ? base : fallback;
   const top = loaded[next] ? next : bottom;
   function opacity(index: number) {
-    if (index === bottom) return 1;
+    if (index === bottom) return top === bottom ? 1 : 1 - blend;
     if (index === top) return blend;
     return 0;
   }
@@ -64,9 +64,10 @@ export function CubeScrollDemo({ assets = defaultAssets }: { assets?: CubeAssets
     <section ref={track} className={`cs-track ${reducedMotion ? 'is-reduced' : ''}`} aria-label="Пять интерьеров: смена при прокрутке">
       <div ref={hero} className="cs-hero" data-progress={progress.toFixed(5)} data-scene={spaces[activeScene].id}>
         <div className="cs-visual">
+          <div className="cs-scene-glow" aria-hidden="true"/>
           <div className="cs-scene-perspective">
             <div className="cs-scene-plane" ref={surface}>
-              {spaces.map((space, index) => <img key={space.id} className="cs-scene-image" src={assets.posters[index]} alt={`${space.label} — архитектурный разрез`} width={1280} height={1024} loading="eager" decoding="async" fetchPriority={index === 0 ? 'high' : 'auto'} draggable={false} style={{ opacity: opacity(index), zIndex: index === top && top !== bottom ? 2 : 1 }} aria-hidden={index !== activeScene}
+              {spaces.map((space, index) => <img key={space.id} className="cs-scene-image" src={assets.posters[index]} alt={`${space.label} — архитектурный разрез`} width={1402} height={1122} loading="eager" decoding="async" fetchPriority={index === 0 ? 'high' : 'auto'} draggable={false} style={{ opacity: opacity(index), zIndex: index === top && top !== bottom ? 2 : 1 }} aria-hidden={index !== activeScene}
                 onLoad={() => setLoaded(previous => previous.map((value, i) => i === index ? true : value))}
                 onError={() => setFailed(previous => previous.map((value, i) => i === index ? true : value))}/>) }
             </div>

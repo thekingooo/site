@@ -35,8 +35,10 @@ test('pointer gently tilts the shared plane and leaving returns to rest',async({
  await ready(page);
  const plane=page.locator('.cs-scene-plane');
  const rest=await plane.evaluate(e=>getComputedStyle(e).transform);
+ const glowRest=await page.locator('.cs-scene-glow').evaluate(e=>getComputedStyle(e).transform);
  await page.mouse.move(1300,250);
  await expect.poll(()=>plane.evaluate(e=>getComputedStyle(e).transform)).not.toBe(rest);
+ await expect.poll(()=>page.locator('.cs-scene-glow').evaluate(e=>getComputedStyle(e).transform)).not.toBe(glowRest);
  await expect(page.locator('.cs-hero')).toHaveAttribute('data-progress','0.00000');
  await page.locator('.cs-hero').dispatchEvent('pointerleave');
  await expect.poll(()=>plane.evaluate(e=>getComputedStyle(e).transform)).toBe(rest);
@@ -50,7 +52,8 @@ test('mobile reduced motion supports keyboard selection without pointer or scrol
  const slider=page.getByRole('slider');await expect(slider).toBeInViewport();await slider.focus();await page.keyboard.press('End');
  await expect(page.locator('.cs-hero')).toHaveAttribute('data-scene','hotel');
  await page.keyboard.press('Home');await expect(page.locator('.cs-hero')).toHaveAttribute('data-scene','cafe');
- await page.mouse.move(300,400);expect(await page.locator('.cs-scene-plane').evaluate(e=>getComputedStyle(e).transform)).toBe('none');
+ const reducedTransform=await page.locator('.cs-scene-plane').evaluate(e=>getComputedStyle(e).transform);
+ await page.mouse.move(300,400);expect(await page.locator('.cs-scene-plane').evaluate(e=>getComputedStyle(e).transform)).toBe(reducedTransform);
  await page.evaluate(()=>scrollTo({top:500,behavior:'instant'}));await page.waitForTimeout(200);
  await expect(page.locator('.cs-hero')).toHaveAttribute('data-progress','0.00000');
 });
@@ -65,4 +68,15 @@ test('FP Group identity, company facts, services and contacts come from the pres
  await expect(page.locator('.cs-company-facts')).toContainText('100+');
  await expect(page.locator('.cs-contact-details a').first()).toHaveAttribute('href','tel:+79509343388');
  await expect(page.getByRole('link',{name:'proekt@fp-g.ru'})).toHaveAttribute('href','mailto:proekt@fp-g.ru');
+});
+
+test('all five cutouts have transparent canvas edges and contain visible architecture',async({page})=>{
+ await ready(page);
+ const alpha=await page.locator('.cs-scene-image').evaluateAll(images=>images.map(element=>{
+  const image=element as HTMLImageElement, canvas=document.createElement('canvas');
+  canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
+  const ctx=canvas.getContext('2d')!;ctx.drawImage(image,0,0);
+  return {corner:ctx.getImageData(0,0,1,1).data[3],center:ctx.getImageData(Math.floor(canvas.width/2),Math.floor(canvas.height/2),1,1).data[3]};
+ }));
+ for(const sample of alpha){expect(sample.corner).toBe(0);expect(sample.center).toBeGreaterThan(245);}
 });

@@ -3,7 +3,7 @@
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 root = Path(__file__).resolve().parents[1]
-output = root / 'public/downloads/fp-group-floating-spaces.zip'
+output = root / 'public/downloads/fp-group-parallax.zip'
 output.parent.mkdir(parents=True, exist_ok=True)
 with ZipFile(output, 'w', compression=ZIP_DEFLATED, compresslevel=9) as archive:
     archive.write(root / 'preview.html', 'index.html')
@@ -11,7 +11,7 @@ with ZipFile(output, 'w', compression=ZIP_DEFLATED, compresslevel=9) as archive:
 
 1. Распакуйте архив.
 2. Откройте index.html в Chrome, Edge или Safari.
-3. Поводите мышью над первым экраном: куб слегка наклоняется.
+3. Поводите мышью над первым экраном: куб наклоняется и смещается, свечение движется отдельно.
 4. Прокрутите вниз: кафе → офис → салон красоты → клиника → отель.
    Можно использовать названия интерьеров и ползунок.
 

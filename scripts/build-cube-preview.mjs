@@ -7,7 +7,7 @@ const asset = async (path, type) => `data:${type};base64,${(await readFile(path)
 const spaces = JSON.parse(await readFile('src/lib/cube-spaces.json', 'utf8'));
 const assets = {
   logo: await asset('public/images/brand/fp-group.svg', 'image/svg+xml'),
-  posters: await Promise.all(spaces.map(chapter => asset(`public/images/spaces/${chapter.id}.jpg`, 'image/jpeg'))),
+  posters: await Promise.all(spaces.map(chapter => asset(`public/images/cutouts/${chapter.id}.webp`, 'image/webp'))),
 };
 const html = `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>FP Group — пространства для бизнеса</title><style>html{scroll-behavior:smooth}body{margin:0;background:#141616;-webkit-font-smoothing:antialiased}button{font:inherit}img{max-width:100%}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}${css}</style></head><body><div id="root"></div><script>window.__CUBE_ASSETS__=${JSON.stringify(assets)};</script><script>${js}</script></body></html>`;
 await writeFile('preview.html', html);
