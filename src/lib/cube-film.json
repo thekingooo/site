@@ -1,0 +1,37 @@
+{
+  "fps": 30,
+  "frameCount": 709,
+  "video": "/video/spaces/five-spaces.mp4",
+  "chapters": [
+    {
+      "id": "cafe",
+      "label": "Кафе",
+      "frame": 0,
+      "fromFrame": 0
+    },
+    {
+      "id": "office",
+      "label": "Офис",
+      "frame": 145,
+      "fromFrame": 143
+    },
+    {
+      "id": "salon",
+      "label": "Салон красоты",
+      "frame": 286,
+      "fromFrame": 284
+    },
+    {
+      "id": "clinic",
+      "label": "Клиника",
+      "frame": 427,
+      "fromFrame": 425
+    },
+    {
+      "id": "hotel",
+      "label": "Отель",
+      "frame": 568,
+      "fromFrame": 566
+    }
+  ]
+}
