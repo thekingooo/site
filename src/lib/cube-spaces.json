@@ -1,0 +1,7 @@
+[
+  { "id": "cafe", "label": "Кафе" },
+  { "id": "office", "label": "Офис" },
+  { "id": "salon", "label": "Салон красоты" },
+  { "id": "clinic", "label": "Клиника" },
+  { "id": "hotel", "label": "Отель" }
+]
