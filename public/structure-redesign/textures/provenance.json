@@ -1,0 +1,50 @@
+{
+  "forest": {
+    "generated_original": "/workspace/generated_images/exec-9871759a-35bc-4385-b96b-4c10c8691c19.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "webp_bytes": 658568
+  },
+  "oak": {
+    "generated_original": "/workspace/generated_images/exec-bbb8e85a-6eb7-44d7-8c41-1da401d7a22d.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "webp_bytes": 576782
+  },
+  "ivory": {
+    "generated_original": "/workspace/generated_images/exec-cb60ade1-cf49-4067-b293-15fbeb21066b.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "webp_bytes": 560518
+  },
+  "sand": {
+    "generated_original": "/workspace/generated_images/exec-adfc9f6a-0717-4f81-a94f-51871b2c8d8d.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "webp_bytes": 585168
+  },
+  "terracotta": {
+    "generated_original": "/workspace/generated_images/exec-990220e7-7e0f-4eb3-8334-0a25ba9f3132.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "webp_bytes": 721100
+  },
+  "stone": {
+    "generated_original": "/workspace/generated_images/exec-f3fd17ef-3ced-4992-9a55-06ff9e87c684.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "webp_bytes": 563240
+  }
+}
