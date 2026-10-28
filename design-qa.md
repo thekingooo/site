@@ -1,9 +1,45 @@
-# Design QA — latest Structure Engineering direction
+# Design QA — FP Group / Loam recording
 
-Final result: **blocked** for the new webpage, 2026-10-27.
+Final result: **passed**. Date: 2026-10-28.
 
-The user selected https://structureengineering.com.au/ as the new primary reference and asked to preserve the supplied hero while rebuilding everything below it. Reference capture is blocked: Chromium reports ERR_TUNNEL_CONNECTION_FAILED, and normal/approved escalated HTTPS requests return HTTP 403. The reference's lower-page layout, typography and motion have not been inspected. Need a full-page screenshot or consecutive screenshots from the user. Do not claim the abandoned editorial draft implements this reference.
+## Source and comparison evidence
 
-Independent asset preparation is complete: six newly generated 1254×1254 textures, high-quality WebP exports, provenance and a Chromium-rendered contact sheet in `public/structure-redesign/`. The contact sheet has been visually inspected; all six material families are present and loaded correctly. This is an asset preview, not website verification.
+The user supplied `Запись 2026-10-27 181002.mp4`, local path `/workspace/attachments/bc2ba8cc-7734-45a9-916e-0c62ea2f27b9/Запись 2026-10-27 181002.mp4`. The 1904×906 recording resolves the previous URL-access blocker. Source sections are extracted in `/workspace/artifacts/fp-loam/frames/`. The selected visual state is the first numbered full-screen scene below the reference's hero.
 
-The original hero markup and interaction script remain unchanged. Previous completed materials-version QA is archived at `docs/fp-materials-design-qa.md`; that report does not apply to the requested new design.
+Source capture: `/workspace/artifacts/fp-loam/reference-about-1904.png` at 10 seconds, 1904×906 pixels. Implementation capture: `/workspace/artifacts/fp-loam/about-1904.png`, CSS viewport 1904×906, deviceScaleFactor 1. Both have been opened together in `/workspace/artifacts/fp-loam/reference-comparison.jpg`, a vertically stacked comparison uniformly scaled to 75% for viewing. This is a composition adaptation with user-supplied images, Russian company text and an untouched original FP hero; it is not a pixel-identical clone of the real-estate imagery/content.
+
+Focused evidence: desktop section captures `about`, `services`, `production`, `materials`, `projects`, `geography`, `contact` at 1440×1000 and equivalent mobile captures at 390×844 in the same artifacts directory. Form review and dark-material selection are captured separately. Browser-recorded scrolling is in `public/loam-redesign/walkthrough.mp4` and its extracted review frames in the artifacts directory. Static overview: `public/loam-redesign/preview.jpg`.
+
+## Fidelity surfaces
+
+- Typography: Cormorant Garamond regular/italic closely follows the reference's thin, high-contrast display lettering; Onest supplies small, spaced navigation and readable body copy. Distinct embedded font family names prevent changes to the original hero. Russian line breaks are intentionally different. No clipped headings at 320, 390, 768, 1440 or 1904 px.
+- Layout: full-screen photographic scenes, numbered upper-left labels, left and centered copy compositions, a thin fixed-looking sticky light navigation, bottom facts and a narrow centered contact form reproduce the recorded hierarchy. The new materials scene and geographic globe adapt the reference's finish/map scenes to the user's instructions.
+- Color: warm ivory navigation, natural photographic colors, dark olive geography and restrained white text. Six newly generated material palettes are included without pasting the user's moodboards. No new gold UI accents.
+- Images: user-supplied hero photographs, actual supplied project-gallery photos and generated 1254×1254 material images. No synthetic photographs are presented as completed projects. Geographic rendering uses real country polygons, including dateline handling; it is a data visualization rather than a hand-drawn map.
+- Content: FP Group services, experience, furniture manufacturing, real case metrics and contact information replace the real-estate copy. “Вся Россия” follows the user's explicit geography request. Contact submission honestly offers a prepared email rather than a simulated success message.
+
+## Findings and iterations
+
+- [P1, fixed] Initial globe texture created bands near the Arctic because country polygons crossed ±180°. Unwrapped ring longitudes and rendered shifted copies. Re-captured `geography-1440.png`; the Russia outline and land surface now align without bands.
+- [P2, fixed] City labels initially sat beneath the WebGL canvas and neighboring labels were too close. Added explicit label stacking and individual offsets; labels are visible in the revised geography capture.
+- [P2, fixed] Mobile standards text approached the globe. Increased mobile geography section spacing; the globe follows the copy during normal scrolling.
+- [P2, fixed] Frame-dependent globe smoothing took too long on a slow renderer. Converted it to elapsed-time smoothing and adjusted the scroll endpoint. Latest browser check observes progress from 0.011 to 1.000, with the full outline shown.
+- [P2, fixed] Clipboard permission can leave an unresolved promise. Added immediate feedback and a timed text-selection fallback. Latest browser check confirms “Текст скопирован.”
+- One viewport-switch QA capture caught an in-flight reveal. Fresh capture at the matching viewport and state confirms visible copy; final checks report text opacity 1 at all four tested responsive widths.
+
+No actionable P0/P1/P2 visual or functional findings remain in the agreed standalone scope.
+
+## Functional checks
+
+Chromium with local HTTP and external requests blocked. Console page errors: none. Checked service dialogs and Escape, all six material images/selection states, both three-photo galleries including next/close/focus restoration, mobile navigation, required contact validation, all three form steps, generated mailto data and clipboard behavior. Checked globe movement on scroll, reduced-motion static state, and a forced no-WebGL flat-map fallback. Responsive checks at 320/390/768/1904 px show no horizontal overflow or clipped display text. Reports: `interactions-qa.json`, `qa.json`, `final-check.json` in `/workspace/artifacts/fp-loam/`.
+
+The builder asserts original hero markup, hero script and five original style blocks unchanged. ZIP integrity and byte equality between packaged and built HTML are checked separately. No Next.js files were changed by this implementation.
+
+## Boundaries / follow-up
+
+- Direct file:// navigation is restricted by this environment's browser policy; verification used local HTTP. The output has no fetch/module-server dependency and all new assets are inline.
+- Original hero external font URLs are deliberately retained. The email workflow needs the visitor's mail application or manual copying; there is no server endpoint.
+- Reference animations were reconstructed from the recording, not the inaccessible live site's implementation.
+- Physical-device GPU/browser testing remains a useful follow-up; the renderer pauses offscreen, caps pixel ratio, respects reduced motion and supplies a WebGL fallback.
+
+Implementation checklist: source compared; desktop/mobile inspected; geometry artifacts fixed; controls tested; hero preservation asserted; standalone archive packaged. Final result: passed.
