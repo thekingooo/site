@@ -1,3 +1,17 @@
+# FP Group flight preview — 28 October 2026
+
+Final result: passed for the HTTP-served prototype.
+
+The source is the user's five-room fly-through video and originals 11.png–15.png. Compared source frame contact sheet against rendered desktop/mobile screenshots and the 24-second browser recording. Stops preserve the source-video composition; original high-resolution images are intentionally used only for reduced motion and lower sections.
+
+Verified: one minimal wheel delta completes one room transition; a sustained wheel burst extending past arrival does not skip a room; reverse playback, keyboard and touch swipe work; all five rooms appear in order; last-room exit and return from company sections work; reduced motion and failed-media fallback work. No page JavaScript errors. Fixed missing text-glyph arrow icons by replacing them with library SVG icons. Removed duplicate visible arrival announcements while preserving the live region. Reviewed desktop 1440×900, mobile 390×844, reduced-motion 320px. ZIP integrity and absence of audio tracks checked.
+
+Limitation: the managed browser blocks `file://` navigation, so direct-file opening is unverified; HTTP behavior is tested. The supplied movie is 720p/24fps and determines motion/detail quality. Physical mobile browsers remain untested.
+
+Implementation and reproducible checks: `docs/fp-flight-preview.md` and `scripts/check-flight-preview.cjs`.
+
+---
+
 # Design QA — FP Group / Loam recording
 
 Final result: **passed**. Date: 2026-10-28.

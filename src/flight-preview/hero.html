@@ -1,0 +1,29 @@
+<section id="sequence" class="flight" aria-label="Путешествие по интерьерам FP Group" data-room="0" data-state="idle">
+  <div class="flight-media" aria-hidden="true">
+    <img id="flight-still" src="media/room-0.webp" alt="" fetchpriority="high" width="1280" height="720">
+    <video class="flight-film" muted playsinline preload="auto" disablepictureinpicture tabindex="-1"></video>
+    <video class="flight-film" muted playsinline preload="auto" disablepictureinpicture tabindex="-1"></video>
+  </div>
+  <div class="flight-shade" aria-hidden="true"></div>
+  <header class="flight-header">
+    <a href="#sequence" class="flight-brand" aria-label="FP Group — главная"><img id="logoImage" src="@@LOGO@@" alt="FP Group" width="160" height="48"></a>
+    <nav aria-label="Основная навигация"><a href="#about">О компании</a><a href="#projects">Наши проекты</a></nav>
+    <a class="flight-contact" href="#contact">Обсудить проект @@UPRIGHT@@</a>
+  </header>
+  <div class="flight-heading">
+    <p class="flight-eyebrow">FP GROUP · КОММЕРЧЕСКИЕ ИНТЕРЬЕРЫ</p>
+    <h1>Создаём места,<br>в которых <em>хочется быть.</em></h1>
+    <p class="flight-intro">От первого впечатления — до каждой детали.<br>Проектируем, строим и оснащаем пространства для бизнеса.</p>
+    <a class="flight-about" href="#about">Знакомство с компанией @@UPRIGHT@@</a>
+  </div>
+  <div class="flight-room-label"><span id="flight-number">01 / 05</span><h2 id="flight-room-name">Лобби</h2><p id="flight-room-detail">Первое впечатление, которое остаётся.</p></div>
+  <div class="flight-instruction"><span class="flight-tick" aria-hidden="true"></span><p id="flight-hint">Прокрутите, чтобы войти в ресторан</p><span id="flight-status" role="status" aria-live="polite"></span></div>
+  <footer class="flight-controls">
+    <div class="flight-route" aria-label="Маршрут по помещениям"><span aria-current="step">01 <b>Лобби</b></span><span>02 <b>Ресторан</b></span><span>03 <b>Кафе</b></span><span>04 <b>Офис</b></span><span>05 <b>Номер отеля</b></span></div>
+    <div class="flight-buttons"><button id="flight-prev" type="button" aria-label="Предыдущее помещение" disabled>@@LEFT@@</button><button id="flight-next" type="button" aria-label="Пролететь в ресторан">@@RIGHT@@</button></div>
+  </footer>
+  <button id="flight-motion" class="flight-motion" type="button" aria-pressed="false">Без анимации</button>
+  <a class="flight-skip" href="#about">Перейти к сайту @@DOWN@@</a>
+  <span id="flight-announcement" class="flight-sr-only" aria-live="polite"></span>
+  <noscript><p class="flight-nojs">Для пролёта включите JavaScript. <a href="#about">О компании</a></p></noscript>
+</section>
