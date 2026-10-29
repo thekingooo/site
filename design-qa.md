@@ -1,3 +1,9 @@
+# FP Group — faster flights, 29 October 2026
+
+The same frame-aligned clips now play at 2× speed in both directions. Room stops and the one-gesture/one-room interaction remain unchanged. Browser checks and an updated walkthrough cover the new timing. See `docs/fp-flight-preview.md` for source limitations and the existing local-file browser restriction.
+
+---
+
 # FP Group flight preview — 28 October 2026
 
 Final result: passed for the HTTP-served prototype.

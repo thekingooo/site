@@ -4,6 +4,8 @@ The user supplied a continuous 1280×720, 24 fps film and the five original rend
 
 ## Behavior
 
+Update, 29 October 2026: forward and reverse flights play at 2× speed, reducing the first three transitions to approximately 1.27 seconds and the final transition to 1.65 seconds. Idle room holds remain indefinite. This changes playback timing without re-encoding the supplied footage.
+
 A single nonzero vertical wheel event starts one complete flight. Further wheel events during the flight are discarded, never queued. A continuous wheel/trackpad tail is also ignored after arrival until a fresh gesture follows a 200 ms quiet interval. A 240 ms arrival cooldown avoids accidental immediate retriggering. Reverse scrolling uses a separately encoded reverse segment. Keyboard arrows/Page Up/Page Down/Space, adjacent-room buttons and touch swipes are supported.
 
 The film pauses indefinitely in each room. After room five, the next downward gesture continues to the company section. Navigation links and the skip link offer an exit before starting a flight; they do not interrupt an active flight. Returning to the first screen preserves the current room. The lower-page navigation, project galleries, materials, globe and mail-preparation form remain from the Loam iteration.

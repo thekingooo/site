@@ -20,6 +20,7 @@
   let room = 0, busy = false, released = false, noMotion = reduced.matches;
   let active = null, lastWheel = -Infinity, latched = false, cooldown = 0, touchY = null;
   let flightToken = 0, watchdog = 0;
+  const flightSpeed = 2;
   const posters = rooms.map((_, i) => { const image = new Image(); image.src = `media/room-${i}.webp`; return image; });
   const staticImage = i => `media/${noMotion ? 'original' : 'room'}-${i}.webp`;
   const clip = (from, to) => `media/${to > from ? 'forward' : 'reverse'}-${Math.min(from, to)}.mp4`;
@@ -103,7 +104,7 @@
       await Promise.all([waitForVideo(player),posters[destination].decode().catch(()=>{})]);
       if (token !== flightToken) return;
       player.currentTime = 0;
-      player.playbackRate = 1;
+      player.playbackRate = flightSpeed;
       player.onended = () => finish();
       player.onerror = () => finish(true);
       // Waiting does not change the room or clear the last decoded frame.
