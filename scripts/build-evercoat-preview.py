@@ -1,7 +1,7 @@
 from pathlib import Path
 from html.parser import HTMLParser
 from zipfile import ZipFile,ZIP_DEFLATED
-import re,json,base64,shutil
+import re,json,base64
 root=Path(__file__).resolve().parents[1];src=root/'src/evercoat-preview';out=root/'public/evercoat-preview';assets=out/'assets'
 assets.mkdir(exist_ok=True,parents=True)
 original=Path('/workspace/artifacts/fp-materials/original.html').read_text()
@@ -15,8 +15,9 @@ items=json.loads(re.search(r'const items=(.*?);\s*const box=',scripts[2],re.S).g
 for i,project in enumerate(items[:2]):
  for j,image in enumerate(project['images']):
   (assets/f'project-{i}-{j}.jpg').write_bytes(base64.b64decode(image.split(',')[1]))
-# The new uploaded film is not accessible yet. This draft explicitly reuses the prior film.
-shutil.copytree(root/'public/flight-preview/media',out/'media',dirs_exist_ok=True)
+# Prepared separately from the new source; never overwrite with the old film.
+manifest=json.loads((out/'media/manifest.json').read_text())
+assert manifest['width']==1920 and manifest['height']==1080, 'Run prepare-evercoat-media.py first'
 icons=src/'icons.json'
 html=(src/'index.html').read_text()
 for name,svg in json.loads(icons.read_text()).items():html=html.replace('@@'+name+'@@',svg)
@@ -27,8 +28,8 @@ readme='''FP GROUP — новая версия по записи Evercoat, 30 о
 
 Распакуйте архив и откройте index.html. Папки assets и media должны оставаться рядом.
 Один жест колёсика — один завершённый пролёт. Обратно — предыдущее помещение.
-Использован ранее доступный ролик: новое видео больше 32 МБ, Google Drive недоступен из рабочей среды. Этот ролик временный.
-Пролёты ×3, размытие усиливается в середине движения и исчезает при остановке.
+Использовано ваше новое видео e12752d3466bdbdeb7260be739a7f100_b1e1f7db-d765-46e9-9bb2-be7fa72c2684.mp4, полученное из четырёх частей RAR. Исходник: 1920×1080, 30 кадров/с, 12 секунд.
+Клипы для сайта сохранены в Full HD, без звука. Пролёты ×3: примерно 0,58–1,04 секунды. Размытие усиливается в середине движения и исчезает при остановке. Движение назад — обратное воспроизведение тех же переходов.
 
 Структура, размеры и оформление восстановлены по вашей записи Evercoat. Точные исходные шрифты и мобильная версия сайта недоступны; использованы Arial и Georgia с адаптивной вёрсткой.
 В портфолио заполнены два подтверждённых объекта. Третье и четвёртое места ожидают фотографий, названий и площадей.

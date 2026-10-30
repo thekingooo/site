@@ -16,13 +16,16 @@ Two portfolio slots are explicitly pending and are not represented as verified c
 
 ## Flight module
 
-Temporary source: the previously available 720p/24fps fly-through, with frame-aligned forward and reverse clips. The newly uploaded `e12752d3466bdbdeb7260be739a7f100_b1e1f7db-d765-46e9-9bb2-be7fa72c2684.mp4` exceeds the 32 MiB transfer limit. The supplied Google Drive page/download URLs also returned 403. The new video has not been viewed or substituted in this draft.
+Current source: `e12752d3466bdbdeb7260be739a7f100_b1e1f7db-d765-46e9-9bb2-be7fa72c2684.mp4`, successfully extracted from the user's four RAR volumes. The 80,859,445-byte source is 1920×1080, 30fps, 12 seconds / 360 frames, without audio. The Google Drive link remains inaccessible; the multipart upload resolved delivery. The previous 720p film is no longer used in this version.
 
-One gesture launches one whole transition; further input is discarded during the flight. 3× playback gives about 0.85–1.10 second flights. The blur rises smoothly to 11px with a 4.5% overscan, then resets completely at arrival. Reverse uses baked reversed clips. No audio. Original renders are available through reduced-motion mode. Large-scale geometry inconsistencies already present in the source film are not reconstructed or repaired.
+Stop frames selected by visual inspection: 0, 75, 126, 186, 279 (0, 2.50, 4.20, 6.20, 9.30 seconds). Each clip includes both boundary frames; lossless posters use those exact source frames. Source resolution is retained in H.264 clips re-encoded at CRF 19 with faststart, and no audio. The final static hotel tail is omitted. The manifest records the source hash, stop indices, and playback timing.
+
+One gesture launches one whole transition; further input is discarded during the flight. 3× playback gives about 0.84, 0.58, 0.68, and 1.04 second flights. The blur rises smoothly to 11px with a 4.5% overscan, then resets completely at arrival. Reverse uses baked reversed clips. Original supplied renders are retained in the lower sections and reduced-motion mode. Large-scale geometry inconsistencies already present in the source film are not reconstructed or repaired.
 
 ## Run and build
 
 ```sh
+python scripts/prepare-evercoat-media.py /path/to/e12752d3466bdbdeb7260be739a7f100_b1e1f7db-d765-46e9-9bb2-be7fa72c2684.mp4
 python scripts/build-evercoat-preview.py
 python -m http.server 3340 --directory public/evercoat-preview
 ```
@@ -31,6 +34,5 @@ The downloadable ZIP includes index.html, assets and media. Extract all files to
 
 ## Remaining inputs
 
-- Accessible new video (archive parts under 30 MB can preserve original quality).
 - Two more completed project photo sets and metadata.
 - The exact source fonts/mobile behavior require source access if pixel-level reproduction is needed.

@@ -1,3 +1,11 @@
+# FP Group / new Full HD film — 30 October 2026
+
+Passed: the new user-supplied film was extracted from all four RAR volumes and replaces the temporary video in the Evercoat version. All eight forward/reverse clips are 1920×1080 at 30fps, silent. Stops are source frames 0 / 75 / 126 / 186 / 279. Explicit CFR timestamps fix a source-duration issue that otherwise caused the arrival frame to be discarded by the MP4 edit list.
+
+Verified decoded frame counts, dimensions, no audio, and both endpoints of all clips against their lossless source posters (mean RGB differences below 3.3/255 after H.264 encoding). Browser checks passed all four forward and four reverse flights, one-wheel-step behavior, sustained-input suppression, cleared blur at rest, no media fallbacks or JavaScript errors, and reduced-motion/mobile layout. Visually reviewed the new hero capture. ZIP integrity, packaged HTML equality, and packaged source hash were checked. Existing company sections are unchanged; two portfolio records still await user materials.
+
+---
+
 # FP Group / Evercoat recording — 30 October 2026
 
 Final result: passed for the review draft. Full requested content is pending the new video and two additional project records.
