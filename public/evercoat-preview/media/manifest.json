@@ -1,0 +1,27 @@
+{
+  "source": "3d228fb4a649fa7e782e7df0e5adb8cd_a2ba00ad-678c-4a56-b23c-821b5555a326.mp4",
+  "fps": 24,
+  "stops_frames": [
+    0,
+    60,
+    120,
+    180,
+    258
+  ],
+  "stops_seconds": [
+    0.0,
+    2.5,
+    5.0,
+    7.5,
+    10.75
+  ],
+  "order": [
+    "Лобби",
+    "Ресторан",
+    "Кафе",
+    "Офис",
+    "Номер отеля"
+  ],
+  "silent": true,
+  "posters": "Exact stop frames; originals kept separately for reduced motion and loading/error fallback."
+}

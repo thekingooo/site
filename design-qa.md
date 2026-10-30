@@ -1,3 +1,13 @@
+# FP Group / Evercoat recording — 30 October 2026
+
+Final result: passed for the review draft. Full requested content is pending the new video and two additional project records.
+
+Compared the supplied recording frames and the rendered implementation at 1902×910. Header height, 1320px content column, color hierarchy, mixed sans/italic headings, service grid, navy benefit section, four-step process, about section, FAQ and form placement follow the recording. The user-requested four-card project row replaces the source before/after slider. Actual source fonts and DOM are unavailable, so this is a visual adaptation, not a pixel-identical clone.
+
+Verified desktop and 390×844 mobile: first forward and reverse flights, blur reaching ~9px during playback and clearing at stops, service dialogs, both real-project galleries with next/Escape, FAQ, mailto preparation, mobile menu, horizontal project row, no page overflow or JS errors. Fixed header logo contrast and horizontal-card entry transforms. All displayed company facts are grounded in the PDF. Two missing cases are explicitly marked pending. New requested film is inaccessible; draft uses the earlier source as disclosed in README and handoff.
+
+---
+
 # FP Group — faster flights, 29 October 2026
 
 The same frame-aligned clips now play at 2× speed in both directions. Room stops and the one-gesture/one-room interaction remain unchanged. Browser checks and an updated walkthrough cover the new timing. See `docs/fp-flight-preview.md` for source limitations and the existing local-file browser restriction.
