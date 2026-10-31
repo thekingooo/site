@@ -5,8 +5,22 @@ await p.mouse.wheel(0,1);await p.waitForFunction(()=>window.fpFlight.state==='pl
 await p.mouse.wheel(0,-1);await p.waitForFunction(()=>window.fpFlight.busy);await p.waitForFunction(()=>!window.fpFlight.busy);if((await p.evaluate(()=>window.fpFlight.room))!==0)throw Error('Reverse failed');
 for(const id of ['services','projects','spaces','process','about','contact']){await p.locator('#'+id).evaluate(e=>e.scrollIntoView({behavior:'instant'}));await p.waitForTimeout(850);await p.screenshot({path:path.join(qaDir,`${id}.png`)});}
 const positions=await p.locator('.project-card').evaluateAll(es=>es.map(e=>({top:e.getBoundingClientRect().top,left:e.getBoundingClientRect().left})));if(new Set(positions.map(e=>Math.round(e.top))).size!==1)throw Error('Projects not in a row');
-await p.locator('[data-project="0"]').click();await p.waitForTimeout(300);await p.locator('.gallery-next').click();if(await p.locator('#gallery-counter').textContent()!=='2 / 3')throw Error('Gallery failed');await p.keyboard.press('Escape');
-await p.locator('[data-project="1"]').click();if(!((await p.locator('#gallery-title').textContent()).includes('MACHETE')))throw Error('Gallery wrong object');await p.keyboard.press('Escape');
+const projects=[['EL MACHETE',4],['Мама варит кофе',5],['Стоматология «Демократ»',5],['Кафе на Стремянном',5]];
+for(let i=0;i<projects.length;i++){
+ const [title,count]=projects[i],card=p.locator(`[data-project="${i}"]`);
+ await card.click();if(await p.locator('#gallery-title').textContent()!==title)throw Error('Gallery wrong object');
+ for(let j=0;j<count;j++){
+  if(await p.locator('#gallery-counter').textContent()!==`${j+1} / ${count}`)throw Error('Wrong photo count');
+  await p.locator('#gallery-image').evaluate(img=>img.decode());
+  if(!await p.locator('#gallery-image').evaluate(img=>img.naturalWidth>1000))throw Error('Image failed');
+  await p.locator('.gallery-next').click();
+ }
+ if(await p.locator('#gallery-counter').textContent()!==`1 / ${count}`)throw Error('Forward wrap failed');
+ await p.keyboard.press('ArrowLeft');if(await p.locator('#gallery-counter').textContent()!==`${count} / ${count}`)throw Error('Reverse wrap failed');
+ await p.keyboard.press('ArrowRight');if(await p.locator('#gallery-counter').textContent()!==`1 / ${count}`)throw Error('Keyboard forward failed');
+ await p.screenshot({path:path.join(qaDir,`gallery-${i}.png`)});
+ await p.keyboard.press('Escape');if(!await card.evaluate(el=>el===document.activeElement))throw Error('Focus not restored');
+}
 for(let i=0;i<3;i++){await p.locator(`[data-service="${i}"]`).click();if(!(await p.locator('#service-dialog').evaluate(e=>e.open)))throw Error('Service dialog failed');await p.keyboard.press('Escape');}
 await p.locator('.faq summary').first().click();if(!(await p.locator('.faq details').first().evaluate(e=>e.open)))throw Error('FAQ failed');
 await p.locator('[name=name]').fill('Тест');await p.locator('[name=reply]').fill('test@example.com');await p.locator('#contact-form [type=submit]').click();if(!(await p.locator('#email-send').getAttribute('href')).includes('mailto:proekt@fp-g.ru'))throw Error('Mail failed');

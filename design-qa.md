@@ -1,3 +1,13 @@
+# FP Group / four supplied project galleries — 31 October 2026
+
+Passed. Four cards now show EL MACHETE, Мама варит кофе, Стоматология «Демократ» and Кафе на Стремянном, in upload order. All 19 supplied WebP files are packaged byte-identically. The fourth slot is temporary at the user's request. Missing city/area data for the two new cases is omitted, not invented. Source is `src/evercoat-preview/projects.json`; gallery counts are 4 / 5 / 5 / 5.
+
+Desktop checks loaded every image, verified each counter, next/previous wrapping, keyboard navigation, Escape/focus return, and the four-card row. Mobile checks covered horizontal card scrolling and opening/advancing/closing the clinic and fourth galleries. No JavaScript errors or horizontal page overflow. Visually reviewed the project section and desktop/mobile clinic galleries. Existing service dialogs, navigation, FAQ, mail preparation and forward/reverse hero behavior passed the existing check. Hero markup was verified unchanged. ZIP integrity and packaged HTML/source-image equality passed.
+
+Evidence: `/workspace/artifacts/fp-portfolio/qa/`, project preview and mobile gallery capture. Direct-file opening remains unverified in the managed browser environment.
+
+---
+
 # FP Group / room labels and trust icons — 31 October 2026
 
 Removed the five room-number prefixes and applied the requested labels: Лобби / Рестораны / Кафе / Офисы / Отели. Increased the trust-strip SVG dimensions by 40%: desktop 17×20 → 23.8×28px, mobile 15×20 → 21×28px. Checked computed sizes, exact labels, no horizontal overflow at 1440px and 390px, and ZIP integrity. Updated hero preview.

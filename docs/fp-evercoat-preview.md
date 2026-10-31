@@ -20,7 +20,9 @@ A one-pixel inset frame sits above both the video and static views (22px desktop
 
 The supplied PDF was inspected as 16 rendered slides (it contains no extractable text). Claims: 8 years, more than 100 projects, own furniture production, full cycle design/construction/engineering/equipment/furniture, and SRO; contacts from slide 16. The two documented projects are the Moscow café on Stremyanny (168m², 45 days, slides 11–12) and EL MACHETE in Ufa (111m², 42 days, slides 13–14). Existing embedded photos from the user's earlier HTML provide their galleries. The logo is the same supplied mark, displayed dark in the header and white in the footer.
 
-Two portfolio slots are explicitly pending and are not represented as verified completed case studies. Names, areas, business types and photos are still needed. The row stays horizontal on small screens with swipe scrolling.
+All four portfolio slots now use the user's 31 October photo archives, in upload order: EL MACHETE (4 images), Мама варит кофе (5), Стоматология «Демократ» (5), Кафе на Стремянном (5). The last object occupies the fourth slot temporarily at the user's request. City/area/duration for the bar and Stremyanny café remain grounded in the presentation; city and area for the two new cases are omitted pending user details. Their descriptions identify visible business spaces without inventing project scope or metrics.
+
+The supplied WebP images are copied byte-for-byte, without additional image processing. JPEG duplicates are not added to galleries. Covers use the portrait/interior views; full gallery images use object-fit contain. `src/evercoat-preview/projects.json` is the source for both card markup and gallery data, so replacing the fourth case requires one entry and its photos. Gallery counters and next/previous wrap use each project's actual image count, with arrow-key navigation, Escape and focus restoration. The four-card row stays horizontal on small screens with swipe scrolling.
 
 ## Flight module
 
@@ -42,5 +44,5 @@ The downloadable ZIP includes index.html, assets and media. Extract all files to
 
 ## Remaining inputs
 
-- Two more completed project photo sets and metadata.
+- City and area for Мама варит кофе and Стоматология «Демократ».
 - The exact source fonts/mobile behavior require source access if pixel-level reproduction is needed.

@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "el-machete",
+    "title": "EL MACHETE",
+    "kind": "Бар",
+    "city": "Уфа",
+    "area": 111,
+    "duration": "42 дня",
+    "summary": "Бар · отделка, инженерия и мебель",
+    "description": "Строительные и отделочные работы, инженерные сети, мебель, межэтажная лестница и художественная роспись. Проект реализован в 2021 году.",
+    "images": [
+      "assets/el-machete-01.webp",
+      "assets/el-machete-02.webp",
+      "assets/el-machete-03.webp",
+      "assets/el-machete-04.webp"
+    ],
+    "cover": "assets/el-machete-04.webp"
+  },
+  {
+    "slug": "mama-varit-kofe",
+    "title": "Мама варит кофе",
+    "kind": "Кофейня",
+    "city": null,
+    "area": null,
+    "duration": null,
+    "summary": "Кофейня · место для встреч и работы",
+    "description": "Кофейня «Мама варит кофе»: зал для гостей, места для встреч и кофейная стойка.",
+    "images": [
+      "assets/mama-varit-kofe-01.webp",
+      "assets/mama-varit-kofe-02.webp",
+      "assets/mama-varit-kofe-03.webp",
+      "assets/mama-varit-kofe-04.webp",
+      "assets/mama-varit-kofe-05.webp"
+    ],
+    "cover": "assets/mama-varit-kofe-02.webp"
+  },
+  {
+    "slug": "demokrat",
+    "title": "Стоматология «Демократ»",
+    "kind": "Стоматология",
+    "city": null,
+    "area": null,
+    "duration": null,
+    "summary": "Стоматологическая клиника",
+    "description": "Стоматология «Демократ»: ресепшен, зона ожидания, лечебные кабинеты и входная группа.",
+    "images": [
+      "assets/demokrat-01.webp",
+      "assets/demokrat-02.webp",
+      "assets/demokrat-03.webp",
+      "assets/demokrat-04.webp",
+      "assets/demokrat-05.webp"
+    ],
+    "cover": "assets/demokrat-03.webp"
+  },
+  {
+    "slug": "stremyanny",
+    "title": "Кафе на Стремянном",
+    "kind": "Кафе",
+    "city": "Москва",
+    "area": 168,
+    "duration": "45 дней",
+    "summary": "Кафе · ремонт и мебель под ключ",
+    "description": "Полный цикл работ: капитальный ремонт, инженерные сети, освещение, проектирование и изготовление корпусной и мягкой мебели.",
+    "temporary_slot": true,
+    "images": [
+      "assets/cafe-stremyannoy-01.webp",
+      "assets/cafe-stremyannoy-02.webp",
+      "assets/cafe-stremyannoy-03.webp",
+      "assets/cafe-stremyannoy-04.webp",
+      "assets/cafe-stremyannoy-05.webp"
+    ],
+    "cover": "assets/cafe-stremyannoy-01.webp"
+  }
+]
