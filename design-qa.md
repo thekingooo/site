@@ -1,3 +1,13 @@
+# FP Group / room navigation and stage stops — 31 October 2026
+
+Passed. The static hero now uses the same video-stop poster as animated mode, so toggling its checkbox does not change angle, crop, dimensions or scale. The checkmark follows the label. Header heights are reduced by 15%. Native room buttons play sequential forward/reverse clips to the selected destination, or switch directly in static mode. The route completes exactly one leg per wheel gesture, stops at nodes, ignores sustained input/inertial tails during a leg, supports reverse and clicking stages, and releases scrolling after the final node. The route footer is removed. Section 03 is compact and text-only. All wrapped trust-strip rows center themselves. Project types, descriptions and the supplied 215m² / 73m² values are updated.
+
+Verified room-button sequences lobby→café→hotel→lobby and other destinations with actual clip playback; all five rooms retain identical image source and computed crop/geometry before/after the static-mode toggle. Verified one-unit wheel input, visible intermediate marker movement, exact arrival, a sustained 12-event burst, all nine stops, reverse, click selection, final exit and re-entry. Responsive checks at 320, 390, 640, 768, 900, 1024, 1440 and 1902px passed; incomplete trust rows are centered, with no horizontal page overflow. Existing gallery, services, form, FAQ, reduced-motion, hero and mobile checks passed with no JavaScript errors. Visually reviewed the thinner header, checkbox order, company section, route and centered rows. ZIP integrity and equality of all packaged assets passed. Direct-file browser use remains blocked by the managed browser policy; HTTP-served behavior is verified.
+
+Evidence: `/workspace/artifacts/fp-refinements/qa/`, `journey-qa/`, `full-qa/`; reproducible interaction checks in `scripts/check-evercoat-navigation.cjs`.
+
+---
+
 # FP Group / services, route and consolidated company section — 31 October 2026
 
 Passed the HTTP-served review checks. Four coordinated service illustrations and dialogs now follow the supplied presentation. The nine-stage serpentine work route advances with page scrolling, supports clicking stages, reverses correctly and finishes at opening. At mobile widths the stages form a vertical route; system reduced-motion shows a static completed route. The requested cover subjects are visible: EL MACHETE's machete mural and the dental chair in the fourth clinic image. The five-item trust strip includes the 8-year gold star. The former company section is removed and its headline/paragraphs moved to section 03. Contact geography uses real Natural Earth data with a Ufa marker and Yandex link.

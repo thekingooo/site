@@ -9,7 +9,7 @@
   const motion = hero.querySelector('#flight-motion');
   const scrollCue = hero.querySelector('#flight-scroll');
   const status = hero.querySelector('#flight-status');
-  const route = [...hero.querySelectorAll('.flight-route>span')];
+  const route = [...hero.querySelectorAll('.flight-route>button')];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const rooms = [
     ['Лобби', 'Первое впечатление, которое остаётся.', 'Прокрутите, чтобы войти в ресторан', 'Пролететь в ресторан'],
@@ -25,7 +25,7 @@
     ['Офисы,', 'в которых рождаются идеи.', 'Пространства для сосредоточенной работы, сильных команд и решений, которые двигают бизнес.'],
     ['Отели,', 'где хочется остаться.', 'Детали, фактуры и продуманный комфорт превращают гостиничный номер в особенное впечатление.']
   ];
-  let room = 0, busy = false, released = false, noMotion = reduced.matches;
+  let room = 0, busy = false, navigating = false, released = false, noMotion = reduced.matches;
   let active = null, lastWheel = -Infinity, latched = false, cooldown = 0, touchY = null;
   let flightToken = 0, watchdog = 0;
   const flightSpeed = 3;
@@ -39,23 +39,24 @@
     blurFrame = requestAnimationFrame(animateBlur);
   };
   const posters = rooms.map((_, i) => { const image = new Image(); image.src = `media/room-${i}.webp`; return image; });
-  const staticImage = i => `media/${noMotion ? 'original' : 'room'}-${i}.webp`;
+  const staticImage = i => `media/room-${i}.webp`;
   const clip = (from, to) => `media/${to > from ? 'forward' : 'reverse'}-${Math.min(from, to)}.mp4`;
   const anchored = () => !released && window.scrollY < 4 && hero.getBoundingClientRect().top > -4;
   const ui = () => {
     hero.dataset.room = String(room);
-    hero.setAttribute('aria-busy', String(busy));
-    previous.disabled = busy || room === 0;
-    next.disabled = busy;
-    scrollCue.disabled = busy;
-    motion.disabled = busy;
+    const locked = busy || navigating;
+    hero.setAttribute('aria-busy', String(locked));
+    previous.disabled = locked || room === 0;
+    next.disabled = locked;
+    scrollCue.disabled = locked;
+    motion.disabled = locked;
     next.setAttribute('aria-label', rooms[room][3]);
     scrollCue.setAttribute('aria-label', rooms[room][3]);
     hero.querySelector('#flight-title').textContent = roomCopy[room][0];
     hero.querySelector('#flight-subtitle').textContent = roomCopy[room][1];
     hero.querySelector('#flight-description').textContent = roomCopy[room][2];
     hero.querySelector('#flight-hint').textContent = busy ? 'Переходим в следующее пространство…' : rooms[room][2];
-    route.forEach((item, i) => i === room ? item.setAttribute('aria-current', 'step') : item.removeAttribute('aria-current'));
+    route.forEach((item, i) => { item.disabled = locked; i === room ? item.setAttribute('aria-current', 'step') : item.removeAttribute('aria-current'); });
     motion.checked = noMotion;
     hero.dataset.motion = noMotion ? 'off' : 'on';
   };
@@ -71,7 +72,7 @@
     p.load();
     return p;
   };
-  const preloadNext = () => { if (!busy) prepare(room, room < 4 ? room + 1 : room - 1); };
+  const preloadNext = () => { if (!busy && !navigating) prepare(room, room < 4 ? room + 1 : room - 1); };
   function waitForVideo(player) {
     if (player.error) return Promise.reject(new Error('Video unavailable'));
     if (player.readyState >= 3 && !player.error) return Promise.resolve();
@@ -88,12 +89,20 @@
     released = true;
     document.getElementById(id)?.scrollIntoView({behavior:noMotion ? 'instant' : 'smooth',block:'start'});
   }
-  async function move(direction) {
-    if (busy) return;
-    const destination = room + direction;
-    if (destination < 0) return;
+  async function navigate(destination) {
+    if (busy || navigating || destination === room || destination < 0) return;
     if (destination > 4) { leave(); return; }
+    navigating = true;
+    try {
+      if (noMotion) await flyTo(destination);
+      else while (room !== destination) await flyTo(room + Math.sign(destination - room));
+    } finally { navigating = false; ui(); preloadNext(); }
+  }
+  const move = direction => navigate(room + direction);
+  async function flyTo(destination) {
     busy = true;
+    let resolveArrival;
+    const arrival = new Promise(resolve => { resolveArrival = resolve; });
     const token = ++flightToken;
     hero.dataset.state = 'loading';
     status.textContent = 'Подготавливаем пролёт…';
@@ -115,6 +124,7 @@
       hero.querySelector('#flight-announcement').textContent = `${rooms[room][0]}. ${room + 1} из 5.`;
       ui();
       preloadNext();
+      resolveArrival();
     };
     if (noMotion) {
       const image = new Image();image.src=staticImage(destination);
@@ -139,6 +149,7 @@
       if (!('requestVideoFrameCallback' in player)) reveal();
       watchdog = setTimeout(() => finish(true),18000);
     } catch (_) { finish(true); }
+    await arrival;
   }
   function onWheel(event) {
     if (event.ctrlKey || Math.abs(event.deltaX)>Math.abs(event.deltaY) || !event.deltaY) return;
@@ -155,6 +166,7 @@
   window.addEventListener('scroll',()=>{if(window.scrollY<3)released=false;},{passive:true});
   next.addEventListener('click',()=>move(1));previous.addEventListener('click',()=>move(-1));
   scrollCue.addEventListener('click',()=>move(1));
+  route.forEach((button, i) => button.addEventListener('click', () => navigate(i)));
   hero.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
     e.preventDefault();
     if(busy)return;
@@ -174,7 +186,7 @@
   reduced.addEventListener('change',()=>{if(!busy){noMotion=reduced.matches;still.src=staticImage(room);ui();preloadNext();}});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&busy&&active?.paused&&hero.dataset.state==='playing')active.play().catch(()=>{});});
   // Read-only diagnostics used in browser checks; never changes navigation state.
-  Object.defineProperty(window,'fpFlight',{get:()=>({room,busy,state:hero.dataset.state,reduced:noMotion,time:active?.currentTime||0})});
+  Object.defineProperty(window,'fpFlight',{get:()=>({room,busy:busy||navigating,state:hero.dataset.state,reduced:noMotion,time:active?.currentTime||0})});
   still.src=staticImage(0);
   ui();preloadNext();
 })();
