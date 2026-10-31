@@ -6,7 +6,15 @@ New independent review version at `public/evercoat-preview`. Source: the user's 
 
 The recording shows a fixed 94px ivory header with centered navigation, a dark-blue pill CTA, a full-width video hero, a 1320px central content column at 1902px viewport, heavy sans-serif headings with Georgia-like italic second phrases, three service cards, a before/after block, a two-image inspiration section, a navy advantages section, four process columns, an image/text company section with an experience medallion, a central statement, FAQ accordions, a pale contact section with a white form, and navy footer. These patterns and desktop proportions are carried into the draft. The user explicitly replaced the before/after block with four portfolio cards in one row.
 
-Fonts are local system Arial and Georgia, selected from visible shapes; the actual source font files and mobile source were unavailable. Mobile layout is an adaptation. Recorded entry motion is approximated with opacity/vertical reveals, and cards have hover zoom. Navigation, service dialogs, galleries, FAQ, menu, and email preparation work locally. No source-company photos, branding, claims or contact data are reused.
+Lower sections use local system Arial and Georgia, selected from visible shapes; the actual source font files and mobile source were unavailable. Mobile layout is an adaptation. Recorded entry motion is approximated with opacity/vertical reveals, and cards have hover zoom. Navigation, service dialogs, galleries, FAQ, menu, and email preparation work locally. No source-company photos, branding, claims or contact data are reused.
+
+## Hero refinement — 31 October 2026
+
+The five room headlines and supporting descriptions now follow the user's supplied screenshots verbatim: lobby, restaurants, cafés, offices, hotels. A shared display layout uses embedded Onest 600 and Cormorant Garamond 400 italic, with the earlier white/sand heading colors retained. These font choices closely follow the supplied shapes; exact screenshot font identification is not claimed. Font licenses are included in the ZIP. The previous hero-only general CTA/facts are replaced by the supplied text layout; the header contact CTA and lower company facts remain.
+
+The header logo is 85% of its former width at each breakpoint (142.8 / 119 / 95.2px), with sand `#b59f6d` for the symbol and navy `#193247` for the lettering. Its original transparent silhouette is used in an inline SVG alpha mask, so recoloring does not redraw or distort the mark and has no external-file dependency.
+
+A one-pixel inset frame sits above both the video and static views (22px desktop inset, 12px mobile). The lower-left caption is replaced by “Прокрутите вниз” and an animated outlined mouse. Clicking the cue advances exactly one room, with the same busy lock as wheel navigation. The cue stops animating in reduced-motion/static mode. Room text updates both forwards and backwards; blur, source film, timing, and all lower sections remain unchanged.
 
 ## Company content
 

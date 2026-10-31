@@ -1,3 +1,13 @@
+# FP Group / hero typography, logo and frame — 31 October 2026
+
+Passed. Visually compared the supplied room-text examples with desktop lobby, restaurant, hotel and mobile lobby/office captures. All five titles and descriptions use the user's exact text. Onest and Cormorant Garamond italic provide the requested font pairing; original heading colors are preserved. Logo silhouette is retained through an inline alpha mask, recolored sand/navy and sized to 85% of the previous breakpoint widths.
+
+Browser checks passed at 320, 390, 768, 1440 and 1902px: all room headings fit, descriptions clear the room navigation and controls, and no page overflow. Verified one-pixel inset frame in video/static modes; animated mouse cue, its click-to-advance action, reverse navigation and reduced-motion state. No page JavaScript errors. Fixed a pre-existing 320px overflow by reducing the narrow-screen benefits heading; lower-page HTML/content is byte-identical to the previous version. Media clips and timings are unchanged. Font licenses included; ZIP integrity and built/packaged HTML equality verified.
+
+Evidence: `/workspace/artifacts/fp-evercoat/hero-refinements/` screenshots and results.json. Direct-file use and physical mobile devices remain unverified in this environment.
+
+---
+
 # FP Group / new Full HD film — 30 October 2026
 
 Passed: the new user-supplied film was extracted from all four RAR volumes and replaces the temporary video in the Evercoat version. All eight forward/reverse clips are 1920×1080 at 30fps, silent. Stops are source frames 0 / 75 / 126 / 186 / 279. Explicit CFR timestamps fix a source-duration issue that otherwise caused the arrival frame to be discarded by the MP4 edit list.

@@ -7,6 +7,7 @@
   const previous = hero.querySelector('#flight-prev');
   const next = hero.querySelector('#flight-next');
   const motion = hero.querySelector('#flight-motion');
+  const scrollCue = hero.querySelector('#flight-scroll');
   const status = hero.querySelector('#flight-status');
   const route = [...hero.querySelectorAll('.flight-route>span')];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -16,6 +17,13 @@
     ['Кафе', 'Место для встреч и любимых привычек.', 'Прокрутите, чтобы войти в офис', 'Пролететь в офис'],
     ['Офис', 'Пространство для команды и новых идей.', 'Прокрутите, чтобы войти в номер отеля', 'Пролететь в номер отеля'],
     ['Номер отеля', 'Комфорт, в котором хочется остаться.', 'Прокрутите, чтобы узнать о нас больше', 'Перейти к информации о компании']
+  ];
+  const roomCopy = [
+    ['Первое впечатление,', 'которое остаётся.', 'Ресепшен и зоны ожидания, которые с первых секунд говорят об уровне вашего бизнеса.'],
+    ['Рестораны,', 'в которые возвращаются.', 'Продуманный интерьер, свет и материалы создают атмосферу, ради которой гости возвращаются.'],
+    ['Кофейни,', 'которые запоминаются.', 'Создаём пространства с характером — для утреннего кофе, встреч и любимых привычек.'],
+    ['Офисы,', 'в которых рождаются идеи.', 'Пространства для сосредоточенной работы, сильных команд и решений, которые двигают бизнес.'],
+    ['Отели,', 'где хочется остаться.', 'Детали, фактуры и продуманный комфорт превращают гостиничный номер в особенное впечатление.']
   ];
   let room = 0, busy = false, released = false, noMotion = reduced.matches;
   let active = null, lastWheel = -Infinity, latched = false, cooldown = 0, touchY = null;
@@ -39,14 +47,18 @@
     hero.setAttribute('aria-busy', String(busy));
     previous.disabled = busy || room === 0;
     next.disabled = busy;
+    scrollCue.disabled = busy;
     motion.disabled = busy;
     next.setAttribute('aria-label', rooms[room][3]);
-    hero.querySelector('#flight-room-name').textContent = rooms[room][0];
-    hero.querySelector('#flight-room-detail').textContent = rooms[room][1];
-    hero.querySelector('#flight-number').textContent = `${String(room + 1).padStart(2, '0')} / 05`;
+    scrollCue.setAttribute('aria-label', rooms[room][3]);
+    hero.querySelector('#flight-title').textContent = roomCopy[room][0];
+    hero.querySelector('#flight-subtitle').textContent = roomCopy[room][1];
+    hero.querySelector('#flight-description').textContent = roomCopy[room][2];
     hero.querySelector('#flight-hint').textContent = busy ? 'Переходим в следующее пространство…' : rooms[room][2];
     route.forEach((item, i) => i === room ? item.setAttribute('aria-current', 'step') : item.removeAttribute('aria-current'));
     motion.setAttribute('aria-pressed', String(noMotion));
+    motion.textContent = noMotion ? 'Включить анимацию' : 'Без анимации';
+    hero.dataset.motion = noMotion ? 'off' : 'on';
   };
   const prepare = (from, to) => {
     if (to < 0 || to > 4 || noMotion) return null;
@@ -143,6 +155,7 @@
   window.addEventListener('wheel',onWheel,{passive:false});
   window.addEventListener('scroll',()=>{if(window.scrollY<3)released=false;},{passive:true});
   next.addEventListener('click',()=>move(1));previous.addEventListener('click',()=>move(-1));
+  scrollCue.addEventListener('click',()=>move(1));
   hero.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
     e.preventDefault();
     if(busy)return;
