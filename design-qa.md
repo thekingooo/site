@@ -1,3 +1,13 @@
+# FP Group / services, route and consolidated company section — 31 October 2026
+
+Passed the HTTP-served review checks. Four coordinated service illustrations and dialogs now follow the supplied presentation. The nine-stage serpentine work route advances with page scrolling, supports clicking stages, reverses correctly and finishes at opening. At mobile widths the stages form a vertical route; system reduced-motion shows a static completed route. The requested cover subjects are visible: EL MACHETE's machete mural and the dental chair in the fourth clinic image. The five-item trust strip includes the 8-year gold star. The former company section is removed and its headline/paragraphs moved to section 03. Contact geography uses real Natural Earth data with a Ufa marker and Yandex link.
+
+Verified 320, 390, 768, 1024, 1440 and 1902px layouts with no horizontal page overflow, desktop route start/middle/finish/reverse and click selection, mobile finish, native checkbox mouse/Space behavior and visible checkmark, reduced-motion defaults, all four service dialogs, all 19 gallery photos and keyboard wrapping, FAQ, email preparation and hero forward/reverse motion. No JavaScript errors. Visually reviewed services, both cover crops, trust strip, desktop and mobile route, company and map. ZIP integrity, packaged HTML and selected asset equality passed. Browser policy still blocks file:// navigation (ERR_BLOCKED_BY_ADMINISTRATOR), so direct-file opening remains unverified; the standalone package has all required local assets.
+
+Evidence: `/workspace/artifacts/fp-updates/qa/`, `/workspace/artifacts/fp-updates/full-qa/`; updated public project, service and route previews. Reproducible checks: `scripts/check-evercoat-preview.cjs` and `scripts/check-evercoat-journey.cjs`.
+
+---
+
 # FP Group / four supplied project galleries — 31 October 2026
 
 Passed. Four cards now show EL MACHETE, Мама варит кофе, Стоматология «Демократ» and Кафе на Стремянном, in upload order. All 19 supplied WebP files are packaged byte-identically. The fourth slot is temporary at the user's request. Missing city/area data for the two new cases is omitted, not invented. Source is `src/evercoat-preview/projects.json`; gallery counts are 4 / 5 / 5 / 5.

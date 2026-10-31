@@ -22,7 +22,17 @@ The supplied PDF was inspected as 16 rendered slides (it contains no extractable
 
 All four portfolio slots now use the user's 31 October photo archives, in upload order: EL MACHETE (4 images), Мама варит кофе (5), Стоматология «Демократ» (5), Кафе на Стремянном (5). The last object occupies the fourth slot temporarily at the user's request. City/area/duration for the bar and Stremyanny café remain grounded in the presentation; city and area for the two new cases are omitted pending user details. Their descriptions identify visible business spaces without inventing project scope or metrics.
 
-The supplied WebP images are copied byte-for-byte, without additional image processing. JPEG duplicates are not added to galleries. Covers use the portrait/interior views; full gallery images use object-fit contain. `src/evercoat-preview/projects.json` is the source for both card markup and gallery data, so replacing the fourth case requires one entry and its photos. Gallery counters and next/previous wrap use each project's actual image count, with arrow-key navigation, Escape and focus restoration. The four-card row stays horizontal on small screens with swipe scrolling.
+The supplied WebP images are copied byte-for-byte, without additional image processing. JPEG duplicates are not added to galleries. EL MACHETE uses the first image with the machete mural; the clinic uses image four with the dental chair. Both covers align left to retain those subjects; full gallery images use object-fit contain. `src/evercoat-preview/projects.json` is the source for both card markup and gallery data, so replacing the fourth case requires one entry and its photos. Gallery counters and next/previous wrap use each project's actual image count, with arrow-key navigation, Escape and focus restoration. The four-card row stays horizontal on small screens with swipe scrolling.
+
+## Services, work route and company consolidation — 31 October 2026
+
+Section 01 now has four directions from the supplied presentation: project/design, construction, engineering/finishing, and equipment/furniture. `services.json` supplies both card text and service-dialog details. Four coordinated generated photographs share a single local atlas; they illustrate the services and are separate from the actual project galleries. Existing ivory, navy and sand colors remain.
+
+Section 05 follows the supplied route concept with nine steps, from business idea to opening. On sufficiently large desktop viewports the entire route stays visible while native page scrolling advances a marker, colors completed stages and updates the current-stage caption. Stage buttons also move to their position. The route becomes vertical below 1000px; short desktop windows use ordinary page flow. System reduced-motion mode shows a static completed route without pinning. No wheel events are intercepted by this section. Stage data lives in `journey.json`; geometry and progress are measured responsively in `journey.js`.
+
+The hero's “Без анимации” control is now a labeled native checkbox with a custom visible box and checkmark. Its label stays fixed, its checked value matches the actual hero mode, and keyboard Space works. The five-item trust strip starts with a gold star containing 8 and “лет создаём пространства”. The former section 06 is removed; its headline and both descriptive paragraphs are in section 03, which the “О компании” navigation opens. Later section numbers are shifted down by one.
+
+The contact image is replaced by a local regional map, marked at Ufa city center (55.9721 E, 54.7388 N), with a zoomed-out Yandex Maps link. Natural Earth public-domain rivers and administrative boundaries provide the geography. The map remains visible offline. To regenerate it, run `python scripts/build-ufa-map.py`; the script downloads/caches source GeoJSON in `/tmp/fp-natural-earth`, or accepts `--data-dir` with pre-downloaded `rivers.geojson` and `regions.geojson`.
 
 ## Flight module
 
@@ -38,6 +48,8 @@ One gesture launches one whole transition; further input is discarded during the
 python scripts/prepare-evercoat-media.py /path/to/e12752d3466bdbdeb7260be739a7f100_b1e1f7db-d765-46e9-9bb2-be7fa72c2684.mp4
 python scripts/build-evercoat-preview.py
 python -m http.server 3340 --directory public/evercoat-preview
+EVERCOAT_URL=http://127.0.0.1:3340 node scripts/check-evercoat-preview.cjs
+EVERCOAT_URL=http://127.0.0.1:3340 node scripts/check-evercoat-journey.cjs
 ```
 
 The downloadable ZIP includes index.html, assets and media. Extract all files together. Contact form prepares a mailto message; no server delivery is implemented. Previous Loam and flight versions are left intact.

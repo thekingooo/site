@@ -52,3 +52,86 @@
 @media(prefers-reduced-motion:reduce){.scroll-mouse>span{animation:none}}
 
 @media(max-width:380px){.header{gap:10px}.header-cta{gap:8px;padding-inline:12px}.difference h2{font-size:35px}}
+
+/* Full-cycle services, journey and company consolidation. */
+.trust{grid-template-columns:repeat(5,minmax(0,1fr));font-size:12px;padding-block:23px}
+.years-star{position:relative;display:inline-grid;place-items:center;width:34px;height:34px;flex:none}
+.trust .years-star svg{width:34px;height:34px;fill:#bca675;stroke:#bca675;stroke-width:1}
+.years-star b{position:absolute;inset:0;display:grid;place-items:center;padding-top:2px;font:600 10px Arial;color:#142f47}
+.services-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.service-card .service-visual{aspect-ratio:1;margin-bottom:23px;background-image:url('assets/services-atlas.png');background-size:200% 200%;background-repeat:no-repeat}
+.service-visual-0{background-position:0 0}.service-visual-1{background-position:100% 0}.service-visual-2{background-position:0 100%}.service-visual-3{background-position:100% 100%}
+.service-title-icon{display:block;color:#9b8451;margin-bottom:14px}.service-title-icon svg{width:29px;height:29px}
+.service-card h3{font-size:23px;line-height:1.2;min-height:56px}.service-card>p{margin-top:12px;font-size:14px;line-height:1.8}
+.company-intro{display:grid;grid-template-columns:1fr 1fr;gap:70px;border-top:1px solid var(--line);padding-top:30px;margin-bottom:45px;font-size:16px;line-height:1.9;color:var(--muted)}
+#flight-motion-label{position:absolute;left:40px;bottom:27px;display:inline-flex;align-items:center;gap:7px;font-size:9px;color:#fff;line-height:16px;cursor:pointer}
+#flight-motion{position:absolute;inset:0;width:100%;height:100%;min-height:0;opacity:0;margin:0;padding:0;cursor:pointer;z-index:1}
+.motion-box{display:grid;place-items:center;width:13px;height:13px;border:1px solid #ffffffa6;border-radius:2px}
+.motion-box svg{width:10px;height:10px;stroke-width:2.5;opacity:0}
+#flight-motion:checked+.motion-box{background:var(--accent);border-color:var(--accent);color:var(--navy)}
+#flight-motion:checked+.motion-box svg{opacity:1}
+#flight-motion:focus-visible+.motion-box{outline:2px solid white;outline-offset:3px}
+#flight-motion:disabled~span{opacity:.5}
+.process-journey{background:#eeeee6;position:relative;scroll-margin-top:0}
+.process-pin{padding:44px 0 36px;background:#eeeee6}
+.process-journey[data-pin="true"]{height:calc(100svh + 1100px)}
+.process-journey[data-pin="true"] .process-pin{position:sticky;top:var(--header);height:calc(100svh - var(--header));display:flex;align-items:center}
+.process-pin>.container{width:calc(100% - 80px)}
+.journey-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:60px;margin-bottom:30px}
+.journey-heading .eyebrow{margin-bottom:16px;font-size:9px}
+.journey-heading h2{font-size:clamp(38px,3.5vw,50px);line-height:1.04}
+.journey-heading>p{max-width:300px;font-size:13px;line-height:1.8;color:var(--muted)}
+.journey-hint{display:block;margin-top:12px;font-size:10px;color:#8d7647}
+.roadmap{position:relative}
+.roadmap .road-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:2}
+.road-svg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.road-base{stroke:#c9cec3;stroke-width:1.5}.road-fill{stroke:#b59f6d;stroke-width:2}
+.road-marker{fill:#ad8b45;stroke:#fff;stroke-width:2}.road-halo{fill:#bca67533}
+.road-steps{list-style:none;padding:0 62px;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 95px}
+.road-steps>li:nth-child(4){grid-column:3;grid-row:2}.road-steps>li:nth-child(5){grid-column:2;grid-row:2}.road-steps>li:nth-child(6){grid-column:1;grid-row:2}
+.road-steps>li:nth-child(7){grid-column:1;grid-row:3}.road-steps>li:nth-child(8){grid-column:2;grid-row:3}.road-steps>li:nth-child(9){grid-column:3;grid-row:3}
+.road-step{position:relative;display:flex;flex-direction:column;align-items:center;width:100%;min-height:128px;background:none;padding:24px 0 0;text-align:center}
+.road-dot{position:absolute;top:0;left:calc(50% - 4px);width:8px;height:8px;border:1px solid #9aa696;border-radius:50%;background:#eeeee6;z-index:3}
+.road-icon{display:block;color:#9aa396;transition:color .3s,transform .3s}
+.road-icon svg{width:27px;height:27px}
+.road-title{display:block;font-size:15px;line-height:1.25;letter-spacing:-.015em;margin-top:8px;color:#68766b;transition:color .3s}
+.road-description{display:block;max-width:290px;font-size:11px;line-height:1.55;margin-top:6px;color:#626d61}
+.road-step.is-reached .road-icon,.road-step.is-reached .road-title{color:var(--navy)}
+.road-step.is-reached .road-dot{background:var(--navy);border-color:var(--navy)}
+.road-step.is-current .road-title,.road-step.is-current .road-icon{color:#8e7038}
+.road-step.is-current .road-dot{background:#ad8b45;border-color:#fff}
+.road-step.is-current .road-icon{transform:translateY(-2px)}
+.road-step:hover .road-title{color:var(--navy)}
+.journey-footer{display:flex;align-items:center;gap:16px;border-top:1px solid #d3d7cb;padding-top:18px;margin-top:23px;font-size:12px;min-height:47px}
+#journey-counter{font:italic 20px Georgia;color:#9b8149;min-width:68px}
+.journey-finish{margin-left:auto;color:#68786b;display:flex;align-items:center;gap:9px}
+.journey-finish svg{width:17px;height:17px}
+.is-complete .journey-finish{color:#8b6d35}
+.contact-map{position:relative;display:block;margin-top:10px;overflow:hidden;border:1px solid #d5ddd1;border-radius:14px;background:#e4e9de;isolation:isolate}
+.contact-map>img{width:100%;height:auto;display:block;transition:transform .7s}
+.contact-map:hover>img{transform:scale(1.025)}
+.map-topline{position:absolute;top:19px;left:20px;font-size:9px;letter-spacing:.15em;color:#405849}
+.map-link{position:absolute;left:17px;bottom:18px;display:flex;align-items:center;gap:15px;padding:9px 13px;background:#f7f7f3ed;border-radius:30px;font-size:11px;color:var(--navy)}
+.map-link svg{width:16px;height:16px}.map-credit{position:absolute;bottom:4px;right:9px;font-size:7px;color:#5b6f61}
+@media(max-width:1100px){.trust{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:22px}.services-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 25px}.service-card h3{min-height:0}.road-steps{gap:26px 48px;padding-inline:45px}.journey-heading{gap:35px}.journey-heading>p{max-width:260px}.company-intro{gap:35px}}
+@media(max-width:999px){
+ .process-pin{padding:70px 0}.process-pin>.container{width:calc(100% - 56px)}
+ .journey-heading{display:block;margin-bottom:43px}.journey-heading h2{font-size:46px}.journey-heading>p{margin-top:25px;max-width:560px;font-size:14px}
+ .road-steps{display:flex;flex-direction:column;padding:0;gap:0}
+ .road-step{min-height:130px;text-align:left;align-items:flex-start;padding:0 0 30px 65px}
+ .road-dot{left:10px;top:8px}.road-icon{position:absolute;right:0;top:0}.road-icon svg{width:28px;height:28px}
+ .road-title{margin-top:0;font-size:20px;padding-right:45px}.road-description{font-size:13px;max-width:520px;line-height:1.75;margin-top:12px;padding-right:30px}
+ .journey-footer{flex-wrap:wrap}.journey-finish{width:100%;margin:6px 0 0}
+}
+@media(max-width:760px){
+ .trust{grid-template-columns:repeat(2,minmax(0,1fr));font-size:10px;gap:19px 14px}
+ .trust>div:last-child{grid-column:1/-1;justify-content:center}.trust .years-star,.trust .years-star svg{width:28px;height:28px}.years-star b{font-size:9px}
+ #flight-motion-label{left:24px;bottom:20px;font-size:8px;gap:6px}
+ .company-intro{grid-template-columns:1fr;gap:18px;font-size:14px;padding-top:22px;margin-bottom:32px}
+ .process-pin{padding:65px 0}.process-pin>.container{width:calc(100% - 44px)}
+ .journey-heading h2{font-size:40px}.journey-heading>p{font-size:13px}.journey-heading .eyebrow{font-size:8px}
+ .road-step{padding-left:43px;min-height:142px}.road-title{font-size:18px}.road-description{font-size:12px;padding-right:5px}.road-icon svg{width:23px;height:23px}
+ .journey-footer{font-size:11px}.map-topline{top:13px;left:13px;font-size:8px}.map-link{left:11px;bottom:17px;font-size:10px;padding:7px 10px}
+}
+@media(max-width:600px){.services-grid{grid-template-columns:1fr;gap:42px}.service-card .service-visual{aspect-ratio:1}.service-card h3{font-size:26px}.service-title-icon{float:right;margin:0 0 8px 12px}.service-card>p{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.process-journey{height:auto!important}.process-pin{position:static!important;height:auto!important}.road-icon{transform:none!important}}

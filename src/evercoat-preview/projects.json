@@ -14,7 +14,8 @@
       "assets/el-machete-03.webp",
       "assets/el-machete-04.webp"
     ],
-    "cover": "assets/el-machete-04.webp"
+    "cover": "assets/el-machete-01.webp",
+    "cover_position": "left center"
   },
   {
     "slug": "mama-varit-kofe",
@@ -50,7 +51,8 @@
       "assets/demokrat-04.webp",
       "assets/demokrat-05.webp"
     ],
-    "cover": "assets/demokrat-03.webp"
+    "cover": "assets/demokrat-04.webp",
+    "cover_position": "left center"
   },
   {
     "slug": "stremyanny",

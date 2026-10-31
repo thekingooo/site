@@ -56,8 +56,7 @@
     hero.querySelector('#flight-description').textContent = roomCopy[room][2];
     hero.querySelector('#flight-hint').textContent = busy ? 'Переходим в следующее пространство…' : rooms[room][2];
     route.forEach((item, i) => i === room ? item.setAttribute('aria-current', 'step') : item.removeAttribute('aria-current'));
-    motion.setAttribute('aria-pressed', String(noMotion));
-    motion.textContent = noMotion ? 'Включить анимацию' : 'Без анимации';
+    motion.checked = noMotion;
     hero.dataset.motion = noMotion ? 'off' : 'on';
   };
   const prepare = (from, to) => {
@@ -171,7 +170,7 @@
   hero.addEventListener('touchmove',e=>{if(anchored()&&touchY!==null&&e.touches.length===1)e.preventDefault();},{passive:false});
   hero.addEventListener('touchend',e=>{if(!anchored()||touchY===null)return;const distance=touchY-e.changedTouches[0].clientY;touchY=null;if(Math.abs(distance)>30&&!busy&&performance.now()>cooldown)move(distance>0?1:-1);},{passive:true});
   hero.addEventListener('touchcancel',()=>{touchY=null;},{passive:true});
-  motion.addEventListener('click',()=>{if(busy)return;noMotion=!noMotion;still.src=staticImage(room);ui();preloadNext();});
+  motion.addEventListener('change',()=>{if(busy){motion.checked=noMotion;return;}noMotion=motion.checked;still.src=staticImage(room);ui();preloadNext();});
   reduced.addEventListener('change',()=>{if(!busy){noMotion=reduced.matches;still.src=staticImage(room);ui();preloadNext();}});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&busy&&active?.paused&&hero.dataset.state==='playing')active.play().catch(()=>{});});
   // Read-only diagnostics used in browser checks; never changes navigation state.

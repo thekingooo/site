@@ -29,8 +29,19 @@ for i,project in enumerate(projects):
  location=(project['city'] or project['kind']).upper()
  area=f"{project['area']} М²" if project['area'] else ''
  project['meta']=' · '.join(str(value).upper() for value in [project['city'],project['kind'],area,project['duration']] if value)
- cards.append(f'''<button class="project-card reveal" data-project="{i}"><div class="image-wrap"><img src="{escape(project['cover'])}" alt="{escape(project['title'])} — интерьер объекта" loading="lazy"><span class="round">@@PLUS@@</span></div><div class="project-meta"><span>{escape(location)}</span><span>{escape(area)}</span></div><h3>{escape(project['title'])}</h3><p>{escape(project['summary'])}</p></button>''')
+ position=escape(project.get('cover_position','center'))
+ cards.append(f'''<button class="project-card reveal" data-project="{i}"><div class="image-wrap"><img src="{escape(project['cover'])}" style="object-position:{position}" alt="{escape(project['title'])} — интерьер объекта" loading="lazy"><span class="round">@@PLUS@@</span></div><div class="project-meta"><span>{escape(location)}</span><span>{escape(area)}</span></div><h3>{escape(project['title'])}</h3><p>{escape(project['summary'])}</p></button>''')
 html=html.replace('@@PROJECT_CARDS@@','\n'.join(cards))
+services=json.loads((src/'services.json').read_text())
+service_cards=[]
+for i,service in enumerate(services):
+ service_cards.append(f'''<button class="service-card reveal" data-service="{i}"><div class="image-wrap service-visual service-visual-{i}" role="img" aria-label="{escape(service['image'])}"><span class="number">{i+1:02}</span><span class="round">@@ARROW@@</span></div><span class="service-title-icon">@@{service['icon']}@@</span><h3>{escape(service['title'])}</h3><p>{escape(service['description'])}</p></button>''')
+html=html.replace('@@SERVICE_CARDS@@','\n'.join(service_cards))
+journey=json.loads((src/'journey.json').read_text())
+steps=[]
+for i,(icon,title,description) in enumerate(journey):
+ steps.append(f'''<li><button class="road-step" data-step="{i}" aria-label="Этап {i+1}: {escape(title)}"><span class="road-dot" aria-hidden="true"></span><span class="road-icon" aria-hidden="true">@@{icon}@@</span><span class="road-title">{escape(title)}</span><span class="road-description">{escape(description)}</span></button></li>''')
+html=html.replace('@@JOURNEY_STEPS@@','\n'.join(steps))
 # Use the original transparent mark as an inline alpha mask: its contours stay
 # exact, while the symbol and wordmark receive the requested two brand colors.
 logo=f'''<svg class="brand-logo" viewBox="0 0 1096 279" width="142.8" height="36.35" aria-hidden="true"><defs><mask id="fp-brand-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1096" height="279" style="mask-type:alpha"><image href="{p.logo}" width="1096" height="279"/></mask></defs><g mask="url(#fp-brand-mask)"><path fill="#193247" d="M0 0h1096v279H0z"/><path fill="#b59f6d" d="M0 0h310v279H0z"/></g></svg>'''
@@ -46,7 +57,10 @@ for package,family,weight,style in [('onest','FPHeroSans',400,'normal'),('onest'
   region='U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116' if subset=='cyrillic' else 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD'
   fonts+=f"@font-face{{font-family:{family};font-weight:{weight};font-style:{style};font-display:swap;src:url(data:font/woff2;base64,{data}) format('woff2');unicode-range:{region}}}\n"
 app=(src/'app.js').read_text().replace('@@PROJECT_DATA@@',json.dumps(projects,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+service_data=[[s['title'],s['description'],s['details']] for s in services]
+app=app.replace('@@SERVICE_DATA@@',json.dumps(service_data,ensure_ascii=False).replace('</','<\\/'))
 html=html.replace('/* INLINE_STYLES */',fonts+(src/'styles.css').read_text()).replace('/* INLINE_FLIGHT */',(src/'flight.js').read_text()).replace('/* INLINE_APP */',app)
+html=html.replace('/* INLINE_JOURNEY */',(src/'journey.js').read_text())
 assert '@@' not in html
 (out/'index.html').write_text(html)
 readme='''FP GROUP — новая версия по записи Evercoat, 31 октября 2026
@@ -60,6 +74,10 @@ readme='''FP GROUP — новая версия по записи Evercoat, 31 о
 Структура, размеры и оформление восстановлены по вашей записи Evercoat. На первом экране используются встроенные Onest и Cormorant Garamond, в остальных блоках — Arial и Georgia.
 В портфолио четыре объекта и 19 фотографий из ваших архивов: EL MACHETE, «Мама варит кофе», стоматология «Демократ» и кафе на Стремянном. Последнее временно занимает четвёртое место по вашему выбору. Город и площадь двух новых объектов пока не указаны — их можно добавить позже.
 Форма подготавливает письмо для отправки через ваше почтовое приложение. Серверная отправка не подключена.
+
+Услуги объединены в четыре направления с новыми иллюстрациями. Маршрут работ подсвечивается при прокрутке; можно выбрать этап нажатием. На телефоне маршрут вертикальный. При системном уменьшении движения показан статичный маршрут.
+Режим главного экрана «Без анимации» отмечается галочкой. Опыт 8 лет перенесён в полосу преимуществ; информация о компании — в блок 03.
+Карта Уфы хранится в архиве и работает без интернета; ссылка открывает Яндекс Карты. Географические данные карты — Natural Earth, public domain.
 '''
 (out/'README.txt').write_text(readme)
 with ZipFile(root/'public/downloads/fp-group-evercoat.zip','w',ZIP_DEFLATED,compresslevel=6) as z:
@@ -69,5 +87,6 @@ with ZipFile(root/'public/downloads/fp-group-evercoat.zip','w',ZIP_DEFLATED,comp
  licenses=(root/'node_modules/lucide-react/LICENSE').read_text()
  licenses+='\n\nONEST\n'+(root/'src/loam-redesign/fonts/onest-LICENSE.txt').read_text()
  licenses+='\n\nCORMORANT GARAMOND\n'+(root/'node_modules/@fontsource/cormorant-garamond/LICENSE').read_text()
+ licenses+='\n\nMAP DATA: Natural Earth, public domain. https://www.naturalearthdata.com/about/terms-of-use/\n'
  z.writestr('THIRD_PARTY.txt',licenses)
 print('Built',out,'ZIP bytes:',(root/'public/downloads/fp-group-evercoat.zip').stat().st_size)
