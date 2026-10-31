@@ -1,3 +1,9 @@
+# FP Group / room labels and trust icons — 31 October 2026
+
+Removed the five room-number prefixes and applied the requested labels: Лобби / Рестораны / Кафе / Офисы / Отели. Increased the trust-strip SVG dimensions by 40%: desktop 17×20 → 23.8×28px, mobile 15×20 → 21×28px. Checked computed sizes, exact labels, no horizontal overflow at 1440px and 390px, and ZIP integrity. Updated hero preview.
+
+---
+
 # FP Group / hero typography, logo and frame — 31 October 2026
 
 Passed. Visually compared the supplied room-text examples with desktop lobby, restaurant, hotel and mobile lobby/office captures. All five titles and descriptions use the user's exact text. Onest and Cormorant Garamond italic provide the requested font pairing; original heading colors are preserved. Logo silhouette is retained through an inline alpha mask, recolored sand/navy and sized to 85% of the previous breakpoint widths.
