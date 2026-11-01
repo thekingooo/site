@@ -1,3 +1,13 @@
+# FP Group / compact contact section and footer — 1 November 2026
+
+Passed. Section padding is halved across breakpoints. Removed the contact benefits/checkmarks and separate phone above the map. The map has a neutral light base, blue waterways and red Ufa marker. The form retains all fields with smaller spacing and a three-row message field. The footer now uses one compact tier with logo/copyright, supplied address and four contact links, and a back-to-top link.
+
+Measured at 1440px: form height 721→637px (about 12% less), width 643→580px (about 10% less); contact section 1060→743px; footer 232→129px. At 390px the footer is 226px tall versus 361px before. Checks at 320, 390, 768, 900, 1440 and 1902px confirm no page overflow, exact half-sized section padding, map bottom above the form bottom, and desktop contact height matching form height plus section padding. Verified all four footer link destinations, full address/copyright, email preparation and back-to-top behavior. Existing responsive route/checkbox/map checks passed; no JavaScript errors. Visually reviewed desktop contact/footer and mobile footer. The local map is not a live Yandex embed; its external link opens Yandex Maps. Direct-file browser use remains unverified because of managed browser policy.
+
+Evidence: `/workspace/artifacts/fp-contact-compact/` (before/after dimensions, screenshots, layout/interaction check and route checks).
+
+---
+
 # FP Group / room navigation and stage stops — 31 October 2026
 
 Passed. The static hero now uses the same video-stop poster as animated mode, so toggling its checkbox does not change angle, crop, dimensions or scale. The checkmark follows the label. Header heights are reduced by 15%. Native room buttons play sequential forward/reverse clips to the selected destination, or switch directly in static mode. The route completes exactly one leg per wheel gesture, stops at nodes, ignores sustained input/inertial tails during a leg, supports reverse and clicking stages, and releases scrolling after the final node. The route footer is removed. Section 03 is compact and text-only. All wrapped trust-strip rows center themselves. Project types, descriptions and the supplied 215m² / 73m² values are updated.

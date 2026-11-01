@@ -34,6 +34,14 @@ The hero's “Без анимации” control is now a labeled native checkbo
 
 The contact image is replaced by a local regional map, marked at Ufa city center (55.9721 E, 54.7388 N), with a zoomed-out Yandex Maps link. Natural Earth public-domain rivers and administrative boundaries provide the geography. The map remains visible offline. To regenerate it, run `python scripts/build-ufa-map.py`; the script downloads/caches source GeoJSON in `/tmp/fp-natural-earth`, or accepts `--data-dir` with pre-downloaded `rivers.geojson` and `regions.geojson`.
 
+## Compact spacing, contacts and footer — 1 November 2026
+
+Section padding is halved at every breakpoint: 106→53px desktop, 75→37.5px tablet, and 65→32.5px mobile. The company and statement sections and the route's outer padding are reduced in the same proportion. The pinned route retains the viewport space and travel required for one-gesture stage navigation.
+
+The contact section no longer shows the full-cycle/own-furniture checkmarks or a separate phone number above the map. The centered contact grid is capped at 1188px; smaller form padding, field spacing and a three-row message field reduce its desktop height from 721 to 637px, with all fields retained. The map sits above the form's lower edge. The offline map uses a neutral light base, blue waterways, gray boundaries and a red Ufa marker, with no green tint; it remains a Natural Earth map linked to Yandex, not Yandex-supplied tiles.
+
+The footer is one tier: logo and copyright on the left, the complete supplied Bashkortostan/Ufa/Kalininsky district address and both phones, website and email centered, and “Наверх” on the right. The slogan, lower divider and second footer row are removed. On mobile, the contact group wraps beneath the logo/back link. Website, telephone and email links retain their proper destinations.
+
 ## Flight module
 
 Current source: `e12752d3466bdbdeb7260be739a7f100_b1e1f7db-d765-46e9-9bb2-be7fa72c2684.mp4`, successfully extracted from the user's four RAR volumes. The 80,859,445-byte source is 1920×1080, 30fps, 12 seconds / 360 frames, without audio. The Google Drive link remains inaccessible; the multipart upload resolved delivery. The previous 720p film is no longer used in this version.
