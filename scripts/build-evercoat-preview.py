@@ -1,7 +1,8 @@
 from pathlib import Path
 from html.parser import HTMLParser
 from html import escape
-from zipfile import ZipFile,ZIP_DEFLATED
+from zipfile import ZipFile,ZipInfo,ZIP_DEFLATED
+from datetime import datetime
 import re,json,base64
 root=Path(__file__).resolve().parents[1];src=root/'src/evercoat-preview';out=root/'public/evercoat-preview';assets=out/'assets'
 assets.mkdir(exist_ok=True,parents=True)
@@ -81,13 +82,34 @@ readme='''FP GROUP — версия по записи Evercoat, 1 ноября 2
 Карта Уфы использует светлую подложку, голубую воду и красную отметку города. Она хранится в архиве и работает без интернета; ссылка открывает Яндекс Карты. Географические данные карты — Natural Earth, public domain.
 '''
 (out/'README.txt').write_text(readme)
+hosting='''FP GROUP — ЗАГРУЗКА НА TIMEWEB
+
+1. Создайте пустой сайт в панели Timeweb.
+2. В разделе «Файлы» откройте корневую папку этого сайта. Обычно это public_html внутри каталога сайта; точный путь смотрите в настройках созданного сайта.
+3. Загрузите ZIP и распакуйте его в этой папке. index.html, assets и media должны находиться непосредственно в корне сайта, рядом друг с другом.
+4. Если отображается стандартная заглушка Timeweb, проверьте, не имеет ли её index.php или index.htm приоритет перед нашим index.html. Файл заглушки можно переименовать после проверки его содержимого.
+5. Проверьте сайт по техническому адресу, указанному Timeweb: изображения, пролёты, галереи и мобильную версию. Затем подключите fp-g.ru и сертификат HTTPS в панели хостинга.
+
+В архиве установлены права: файлы 644, каталоги 755. После успешной распаковки загруженный ZIP можно удалить из публичной папки.
+
+Почта proekt@fp-g.ru обслуживается Яндексом. При подключении домена сохраните почтовые записи Яндекса. Значения SPF/DKIM берите из панели Яндекс 360; DNS-записи редактируются у провайдера, управляющего DNS домена.
+
+ВАЖНО О ФОРМЕ: этот архив пока подготавливает письмо в почтовом приложении посетителя. Автоматическая серверная отправка через Яндекс SMTP ещё не подключена. Для неё нужны обработчик формы, доступность исходящего SMTP на Timeweb и пароль приложения Яндекс Почты, который хранится на сервере. Пароля в этом архиве нет.
+'''
+(out/'TIMEWEB.txt').write_text(hosting)
 with ZipFile(root/'public/downloads/fp-group-evercoat.zip','w',ZIP_DEFLATED,compresslevel=6) as z:
+ def add(name,data,directory=False):
+  info=ZipInfo(str(name),datetime.now().timetuple()[:6]);info.create_system=3
+  info.external_attr=((0o40755 if directory else 0o100644)<<16)|(0x10 if directory else 0)
+  info.compress_type=ZIP_DEFLATED
+  z.writestr(info,data)
  for folder in ['assets','media']:
-  for f in (out/folder).iterdir():z.write(f,f.relative_to(out))
- z.writestr('index.html',html);z.writestr('ПРОЧИТАТЬ.txt',readme)
+  add(folder+'/',b'',directory=True)
+  for f in (out/folder).iterdir():add(f.relative_to(out),f.read_bytes())
+ add('index.html',html);add('ПРОЧИТАТЬ.txt',readme);add('ЗАГРУЗКА_НА_TIMEWEB.txt',hosting)
  licenses=(root/'node_modules/lucide-react/LICENSE').read_text()
  licenses+='\n\nONEST\n'+(root/'src/loam-redesign/fonts/onest-LICENSE.txt').read_text()
  licenses+='\n\nCORMORANT GARAMOND\n'+(root/'node_modules/@fontsource/cormorant-garamond/LICENSE').read_text()
  licenses+='\n\nMAP DATA: Natural Earth, public domain. https://www.naturalearthdata.com/about/terms-of-use/\n'
- z.writestr('THIRD_PARTY.txt',licenses)
+ add('THIRD_PARTY.txt',licenses)
 print('Built',out,'ZIP bytes:',(root/'public/downloads/fp-group-evercoat.zip').stat().st_size)
