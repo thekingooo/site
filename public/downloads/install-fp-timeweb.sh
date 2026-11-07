@@ -50,10 +50,13 @@ mkdir "$fp_stage/public_html"
 unzip -q "$fp_stage/site.zip" -d "$fp_stage/public_html"
 [[ -s "$fp_stage/public_html/index.html" && -d "$fp_stage/public_html/assets" && -d "$fp_stage/public_html/media" ]] \
   || fail 'В архиве не найдены необходимые файлы сайта.'
-# Retain certificate validation files managed by the hosting provider.
-if [[ -e "$fp_site_root/.well-known" || -L "$fp_site_root/.well-known" ]]; then
-  cp -a -- "$fp_site_root/.well-known" "$fp_stage/public_html/"
-fi
+# Retain certificate validation and the existing web-server configuration.
+# This is an update of the same site; HTTPS redirects may be managed by Timeweb.
+for fp_preserved in .well-known .htaccess; do
+  if [[ -e "$fp_site_root/$fp_preserved" || -L "$fp_site_root/$fp_preserved" ]]; then
+    cp -a -- "$fp_site_root/$fp_preserved" "$fp_stage/public_html/"
+  fi
+done
 chmod 755 "$fp_stage/public_html"
 
 fp_backup=$(mktemp -d "$fp_parent/.fp-backup.XXXXXXXX")
@@ -65,5 +68,5 @@ mv -- "$fp_stage/public_html" "$fp_site_root"
 printf '\nГОТОВО: файлы сайта установлены.\n'
 printf 'Папка сайта: %s\n' "$fp_site_root"
 printf 'Предыдущие файлы: %s/public_html\n' "$fp_backup"
-printf 'Теперь откройте технический адрес сайта в панели Timeweb.\n'
+printf 'Теперь откройте https://fp-group.su/ и обновите страницу без кеша.\n'
 printf 'Форма пока подготавливает письмо; автоматическая отправка через SMTP ещё не подключена.\n'
