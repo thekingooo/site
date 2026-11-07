@@ -1,0 +1,20 @@
+{
+  "url": "https://fp-g.ru/",
+  "name": "FP Group",
+  "title": "FP Group — ремонт коммерческих помещений",
+  "description": "Проектирование, ремонт и оснащение коммерческих помещений под ключ. Кафе, рестораны, офисы и отели. Собственное производство мебели. Уфа, проекты по всей России.",
+  "image": "assets/social-preview.jpg",
+  "imageAlt": "FP Group — ремонт и отделка коммерческих пространств",
+  "imageWidth": 1440,
+  "imageHeight": 900,
+  "logo": "assets/favicon-192.png",
+  "email": "proekt@fp-g.ru",
+  "phones": ["+79509343388", "+73472573388"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Калининский район, улица 6-й Кордон, зд. 10к1, оф. 4",
+    "addressLocality": "Уфа",
+    "addressRegion": "Республика Башкортостан",
+    "addressCountry": "RU"
+  }
+}

@@ -3,7 +3,8 @@ from html.parser import HTMLParser
 from html import escape
 from zipfile import ZipFile,ZipInfo,ZIP_DEFLATED
 from datetime import datetime
-import re,json,base64,subprocess
+import re,json,base64,subprocess,shutil
+from evercoat_seo import build_seo
 root=Path(__file__).resolve().parents[1];src=root/'src/evercoat-preview';out=root/'public/evercoat-preview';assets=out/'assets'
 assets.mkdir(exist_ok=True,parents=True)
 subprocess.run(['node',str(root/'scripts/prepare-evercoat-favicons.cjs')],check=True)
@@ -23,6 +24,13 @@ manifest=json.loads((out/'media/manifest.json').read_text())
 assert manifest['width']==1920 and manifest['height']==1080, 'Run prepare-evercoat-media.py first'
 icons=src/'icons.json'
 html=(src/'index.html').read_text()
+seo=json.loads((src/'seo.json').read_text())
+seo_head,robots,sitemap=build_seo(seo)
+html=html.replace('@@SEO_HEAD@@',seo_head)
+# Reuse the approved homepage screenshot unchanged for link previews.
+shutil.copyfile(out/'preview.jpg',out/seo['image'])
+(out/'robots.txt').write_text(robots)
+(out/'sitemap.xml').write_bytes(sitemap)
 projects=json.loads((src/'projects.json').read_text())
 cards=[]
 for i,project in enumerate(projects):
@@ -68,6 +76,7 @@ assert '@@' not in html
 readme='''FP GROUP — версия по записи Evercoat, 1 ноября 2026
 
 Обновление 7 ноября 2026: заголовок вкладки «FP Group — ремонт коммерческих помещений», фавиконка — выбранный золотой знак на тёмно-синей плитке. Иконки PNG, ICO и Apple Touch включены в архив.
+Техническая SEO-настройка: основной адрес https://fp-g.ru/, описание страницы, robots.txt, sitemap.xml, разметка компании и превью ссылки. Единственный постоянный H1 назначен существующей строке об услуге. Тексты на странице, оформление и пролёты сохранены.
 
 Распакуйте архив и откройте index.html. Папки assets и media должны оставаться рядом.
 Один жест колёсика — один завершённый пролёт. Обратно — предыдущее помещение.
@@ -95,6 +104,9 @@ hosting='''FP GROUP — ЗАГРУЗКА НА TIMEWEB
 
 В архиве установлены права: файлы 644, каталоги 755. После успешной распаковки загруженный ZIP можно удалить из публичной папки.
 
+SEO настроено для https://fp-g.ru/. В корне должны находиться robots.txt и sitemap.xml, а в assets — social-preview.jpg. Файл карты сайта: https://fp-g.ru/sitemap.xml. После привязки домена проверьте HTTPS и настройте в панели Timeweb перенаправление HTTP на HTTPS и www.fp-g.ru на fp-g.ru. Сертификат должен покрывать оба имени. В архиве нет серверных правил перенаправления: эти настройки зависят от конфигурации хостинга.
+Подтверждение сайта в Яндекс Вебмастере и Google Search Console выполняется в аккаунтах владельца. Добавьте туда адрес карты сайта. Канонический адрес в HTML не заменяет перенаправления на хостинге. Счётчики аналитики и коды подтверждения аккаунтов в архив не добавлены.
+
 Почта proekt@fp-g.ru обслуживается Яндексом. При подключении домена сохраните почтовые записи Яндекса. Значения SPF/DKIM берите из панели Яндекс 360; DNS-записи редактируются у провайдера, управляющего DNS домена.
 
 ВАЖНО О ФОРМЕ: этот архив пока подготавливает письмо в почтовом приложении посетителя. Автоматическая серверная отправка через Яндекс SMTP ещё не подключена. Для неё нужны обработчик формы, доступность исходящего SMTP на Timeweb и пароль приложения Яндекс Почты, который хранится на сервере. Пароля в этом архиве нет.
@@ -110,6 +122,7 @@ with ZipFile(root/'public/downloads/fp-group-evercoat.zip','w',ZIP_DEFLATED,comp
   add(folder+'/',b'',directory=True)
   for f in (out/folder).iterdir():add(f.relative_to(out),f.read_bytes())
  add('index.html',html);add('favicon.ico',(out/'favicon.ico').read_bytes());add('ПРОЧИТАТЬ.txt',readme);add('ЗАГРУЗКА_НА_TIMEWEB.txt',hosting)
+ add('robots.txt',robots);add('sitemap.xml',sitemap)
  licenses=(root/'node_modules/lucide-react/LICENSE').read_text()
  licenses+='\n\nONEST\n'+(root/'src/loam-redesign/fonts/onest-LICENSE.txt').read_text()
  licenses+='\n\nCORMORANT GARAMOND\n'+(root/'node_modules/@fontsource/cormorant-garamond/LICENSE').read_text()
