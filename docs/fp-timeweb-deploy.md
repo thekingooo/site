@@ -2,9 +2,9 @@
 
 The user confirmed the document root `/home/c/cf86083/FPgroup/public_html` and showed successful installation of release `d797472` through Timeweb's web SSH console. Direct SSH from the execution environment has not connected. The new SEO release below has not yet been installed on Timeweb.
 
-`public/downloads/install-fp-timeweb.sh` installs reviewed release `6aefdc1`. The archive SHA-256 is `2ee49a9a108c39029ee12a3347431ae366e7b14aeacea567c5d3021df3dc61e5`. Download the installer using its immutable Git commit URL, verify its own published hash, and run it with the document-root path as its only argument.
+`public/downloads/install-fp-timeweb.sh` installs reviewed release `6149288`. The archive SHA-256 is `9a4898d56fd22bdc78e895de215bb753203a4368085fe48fbaf7a7a5e0f84a36`. Download the installer using its immutable Git commit URL, verify its own published hash, and run it with the document-root path as its only argument.
 
-Archive: https://raw.githubusercontent.com/thekingooo/site/6aefdc1/public/downloads/fp-group-evercoat.zip
+Archive: https://raw.githubusercontent.com/thekingooo/site/6149288/public/downloads/fp-group-evercoat.zip
 
 This release adds the selected title/favicon, canonical URL, search description, structured company data, robots.txt, sitemap.xml and link previews. The existing service label becomes a stable H1. Before/after screenshots show identical pixels at the verified desktop and mobile widths. See `docs/fp-seo-review.md` for scope and checks.
 

@@ -3,9 +3,9 @@
 set -Eeuo pipefail
 umask 077
 
-FP_RELEASE=6aefdc1
+FP_RELEASE=6149288
 FP_ARCHIVE_URL="https://raw.githubusercontent.com/thekingooo/site/${FP_RELEASE}/public/downloads/fp-group-evercoat.zip"
-FP_ARCHIVE_SHA256=2ee49a9a108c39029ee12a3347431ae366e7b14aeacea567c5d3021df3dc61e5
+FP_ARCHIVE_SHA256=9a4898d56fd22bdc78e895de215bb753203a4368085fe48fbaf7a7a5e0f84a36
 
 fail() { printf 'ОШИБКА: %s\n' "$*" >&2; exit 1; }
 [[ $# -eq 1 ]] || fail 'Укажите один аргумент: полный путь к public_html.'
