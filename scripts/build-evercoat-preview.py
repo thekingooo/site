@@ -3,9 +3,10 @@ from html.parser import HTMLParser
 from html import escape
 from zipfile import ZipFile,ZipInfo,ZIP_DEFLATED
 from datetime import datetime
-import re,json,base64
+import re,json,base64,subprocess
 root=Path(__file__).resolve().parents[1];src=root/'src/evercoat-preview';out=root/'public/evercoat-preview';assets=out/'assets'
 assets.mkdir(exist_ok=True,parents=True)
+subprocess.run(['node',str(root/'scripts/prepare-evercoat-favicons.cjs')],check=True)
 original=Path('/workspace/artifacts/fp-materials/original.html').read_text()
 class P(HTMLParser):
  def handle_starttag(self,t,attrs):
@@ -66,6 +67,8 @@ assert '@@' not in html
 (out/'index.html').write_text(html)
 readme='''FP GROUP — версия по записи Evercoat, 1 ноября 2026
 
+Обновление 7 ноября 2026: заголовок вкладки «FP Group — ремонт коммерческих помещений», фавиконка — выбранный золотой знак на тёмно-синей плитке. Иконки PNG, ICO и Apple Touch включены в архив.
+
 Распакуйте архив и откройте index.html. Папки assets и media должны оставаться рядом.
 Один жест колёсика — один завершённый пролёт. Обратно — предыдущее помещение.
 Использовано ваше новое видео e12752d3466bdbdeb7260be739a7f100_b1e1f7db-d765-46e9-9bb2-be7fa72c2684.mp4, полученное из четырёх частей RAR. Исходник: 1920×1080, 30 кадров/с, 12 секунд.
@@ -106,7 +109,7 @@ with ZipFile(root/'public/downloads/fp-group-evercoat.zip','w',ZIP_DEFLATED,comp
  for folder in ['assets','media']:
   add(folder+'/',b'',directory=True)
   for f in (out/folder).iterdir():add(f.relative_to(out),f.read_bytes())
- add('index.html',html);add('ПРОЧИТАТЬ.txt',readme);add('ЗАГРУЗКА_НА_TIMEWEB.txt',hosting)
+ add('index.html',html);add('favicon.ico',(out/'favicon.ico').read_bytes());add('ПРОЧИТАТЬ.txt',readme);add('ЗАГРУЗКА_НА_TIMEWEB.txt',hosting)
  licenses=(root/'node_modules/lucide-react/LICENSE').read_text()
  licenses+='\n\nONEST\n'+(root/'src/loam-redesign/fonts/onest-LICENSE.txt').read_text()
  licenses+='\n\nCORMORANT GARAMOND\n'+(root/'node_modules/@fontsource/cormorant-garamond/LICENSE').read_text()
