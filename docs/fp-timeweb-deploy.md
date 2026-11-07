@@ -12,6 +12,6 @@ The installer requires an existing, writable `public_html` directory, rejects a 
 
 The installation is separate from domain binding and HTTPS setup in Timeweb. After the user runs the command, inspect the output and verify the site using the technical address or assigned domain. The current form still prepares a mailto message; server-side delivery through Yandex SMTP has not been implemented or configured.
 
-The SEO files use `https://fp-g.ru/` as the primary URL. Verify that URL, `/robots.txt`, `/sitemap.xml` and `/assets/social-preview.jpg` after installation. HTTPS and www/non-www redirects belong in the hosting configuration; the archive does not introduce an unverified `.htaccess`. Search Console, Yandex Webmaster and analytics require the owner's account setup.
+The SEO files use `https://fp-group.su/` as the primary URL. Verify that URL, `/robots.txt`, `/sitemap.xml` and `/assets/social-preview.jpg` after installation. HTTPS and www/non-www redirects belong in the hosting configuration; the archive does not introduce an unverified `.htaccess`. Search Console, Yandex Webmaster and analytics require the owner's account setup.
 
 Local verification covers successful installation with byte-identical backup, preservation of certificate-validation files, permissions (public directory 755, files 644, backup directory 700), checksum failure leaving the existing site untouched, activation failure or a hangup signal restoring it, and refusal of a symlink document root. Evidence is in `/workspace/artifacts/fp-timeweb-deploy/`.

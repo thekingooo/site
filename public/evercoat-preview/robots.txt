@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fp-g.ru/sitemap.xml
+Sitemap: https://fp-group.su/sitemap.xml
