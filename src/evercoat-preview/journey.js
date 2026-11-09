@@ -10,7 +10,9 @@
  const clamp=v=>Math.min(1,Math.max(0,v));
  const pinned=()=>section.dataset.pin==='true';
  const headerHeight=()=>document.querySelector('.header').getBoundingClientRect().height;
- function range(){const start=scrollY+section.getBoundingClientRect().top-headerHeight();return{start,travel:section.offsetHeight-pin.offsetHeight};}
+ // Hold the page at the section's natural position while advancing the stops.
+ // No extra scroll-height spacer is needed around this compact section.
+ function range(){return{start:scrollY+section.getBoundingClientRect().top-headerHeight()};}
  function render(distance){
   if(!total)return;current=distance;
   const point=base.getPointAtLength(distance);
@@ -27,22 +29,25 @@
   if(reduced.matches)return steps.length-1;
   let distance;
   if(pinned()){
-   const {start,travel}=range();distance=clamp((scrollY-start)/Math.max(1,travel))*total;
+   const {start}=range();
+   if(scrollY<start-2)return 0;
+   if(scrollY>start+2)return steps.length-1;
+   return targetIndex;
   }else{
    const first=steps[0].querySelector('.road-dot').getBoundingClientRect(),last=steps.at(-1).querySelector('.road-dot').getBoundingClientRect();
    distance=clamp((innerHeight*.53-first.top)/Math.max(1,last.top-first.top))*total;
   }
   return stops.reduce((best,stop,i)=>Math.abs(stop-distance)<Math.abs(stops[best]-distance)?i:best,0);
  }
- function alignPage(index){
+ function alignPage(){
   if(!pinned())return;
-  const {start,travel}=range();programmaticY=start+stops[index]/total*travel;
+  programmaticY=range().start;
   window.scrollTo({top:programmaticY,behavior:'instant'});
  }
  function go(index,{align=false,instant=false}={}){
   if(!total)return;
   index=Math.min(steps.length-1,Math.max(0,index));
-  if(align)alignPage(index);
+  if(align)alignPage();
   if(index===targetIndex&&(frame||Math.abs(current-stops[index])<.01))return;
   cancelAnimationFrame(frame);frame=0;pendingScroll=false;targetIndex=index;
   const from=current,to=stops[index],duration=560+Math.min(320,Math.abs(to-from)/total*650);
@@ -81,11 +86,11 @@
  },{passive:true});
  window.addEventListener('wheel',event=>{
   if(!pinned()||event.defaultPrevented||event.ctrlKey||!event.deltaY||Math.abs(event.deltaX)>Math.abs(event.deltaY)||document.querySelector('dialog[open]'))return;
-  const {start,travel}=range(),end=start+travel;
+  const {start}=range();
   const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1);
   const enteringFromAbove=scrollY<start-2&&delta>0&&scrollY+delta>=start;
-  const enteringFromBelow=scrollY>end+2&&delta<0&&scrollY+delta<=end;
-  if(!enteringFromAbove&&!enteringFromBelow&&(scrollY<start-2||scrollY>end+2))return;
+  const enteringFromBelow=scrollY>start+2&&delta<0&&scrollY+delta<=start;
+  if(!enteringFromAbove&&!enteringFromBelow&&Math.abs(scrollY-start)>2)return;
   const now=performance.now(),gap=now-lastWheel;lastWheel=now;
   if(enteringFromAbove||enteringFromBelow){event.preventDefault();go(enteringFromAbove?0:steps.length-1,{align:true,instant:true});return;}
   // A wheel burst and its inertial tail finish one whole leg, never half a leg.
@@ -97,7 +102,7 @@
  document.addEventListener('keydown',event=>{
   if(!pinned()||event.ctrlKey||event.metaKey||event.altKey||document.querySelector('dialog[open]'))return;
   if(event.target.closest('input,textarea,select,a,[contenteditable],button:not(.road-step)'))return;
-  const {start,travel}=range();if(scrollY<start-2||scrollY>start+travel+2)return;
+  if(Math.abs(scrollY-range().start)>2)return;
   const forward=['ArrowDown','PageDown',' '].includes(event.key),back=['ArrowUp','PageUp'].includes(event.key);if(!forward&&!back)return;
   const destination=targetIndex+(forward?1:-1);if(destination<0||destination>=steps.length)return;
   event.preventDefault();if(!event.repeat&&!frame)go(destination,{align:true});

@@ -28,13 +28,27 @@ def paths(name):
    if max(xs)<west or min(xs)>east or max(ys)<south or min(ys)>north:continue
    result.append('M '+' L '.join(f'{x:.1f} {y:.1f}' for x,y in [xy(*p[:2]) for p in points]))
  return ''.join(f'<path d="{d}"/>' for d in result)
-svg=[f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" role="img" aria-label="Уфа и соседние города"><rect width="740" height="420" fill="#f4f3ef"/><defs><clipPath id="map-clip"><rect width="740" height="420"/></clipPath></defs><g clip-path="url(#map-clip)">']
+animation='''<style>
+.ufa-ripple{fill:none;stroke:#f44336;stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:ufa-ripple 2.8s ease-out infinite}
+.ufa-ripple-late{animation-delay:-1.4s}
+.ufa-marker-core{animation:ufa-beacon 2.8s ease-in-out infinite}
+@keyframes ufa-ripple{0%{transform:scale(.25);opacity:.55}90%,100%{transform:scale(1.35);opacity:0}}
+@keyframes ufa-beacon{0%,100%{opacity:1}50%{opacity:.55}}
+@media(prefers-reduced-motion:reduce){.ufa-ripple,.ufa-marker-core{animation:none}.ufa-ripple{opacity:.2;transform:none}.ufa-ripple-late{transform:scale(.5)}.ufa-marker-core{opacity:1}}
+</style>'''
+svg=[f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" role="img" aria-label="Уфа и соседние города">'+animation+'<rect width="740" height="420" fill="#f4f3ef"/><defs><clipPath id="map-clip"><rect width="740" height="420"/></clipPath></defs><g clip-path="url(#map-clip)">']
 svg.append('<g fill="none" stroke="#d7d3cc" stroke-width="1.2">'+paths('regions')+'</g>')
 svg.append('<g fill="none" stroke="#9cc9f5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">'+paths('rivers')+'</g>')
 for name,lon,lat in [('Казань',49.1064,55.7961),('Самара',50.1002,53.1959),('Пермь',56.2502,58.0105),('Екатеринбург',60.6057,56.8389),('Челябинск',61.4368,55.1644)]:
  x,y=xy(lon,lat);svg.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.4" fill="#777777"/><text x="{x+7:.1f}" y="{y+4:.1f}" font-family="Arial,sans-serif" font-size="12" fill="#525252">{escape(name)}</text>')
 x,y=xy(55.9721,54.7388)
-svg.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="24" fill="#f4433620"/><circle cx="{x:.1f}" cy="{y:.1f}" r="12" fill="#f4433638"/><circle cx="{x:.1f}" cy="{y:.1f}" r="5.5" fill="#f44336" stroke="#ffffff" stroke-width="2"/><rect x="{x+18:.1f}" y="{y-17:.1f}" width="64" height="34" rx="5" fill="#ffffff"/><text x="{x+31:.1f}" y="{y+5:.1f}" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#333333">Уфа</text>')
+marker=f'<circle class="ufa-ripple" cx="{x:.1f}" cy="{y:.1f}" r="24"/><circle class="ufa-ripple ufa-ripple-late" cx="{x:.1f}" cy="{y:.1f}" r="24"/><circle class="ufa-marker-core" cx="{x:.1f}" cy="{y:.1f}" r="5.5" fill="#f44336" stroke="#ffffff" stroke-width="2"/>'
+static_marker=f'<circle cx="{x:.1f}" cy="{y:.1f}" r="24" fill="#f4433620"/><circle cx="{x:.1f}" cy="{y:.1f}" r="12" fill="#f4433638"/><circle cx="{x:.1f}" cy="{y:.1f}" r="5.5" fill="#f44336" stroke="#ffffff" stroke-width="2"/>'
+svg.append(marker+f'<rect x="{x+18:.1f}" y="{y-17:.1f}" width="64" height="34" rx="5" fill="#ffffff"/><text x="{x+31:.1f}" y="{y+5:.1f}" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#333333">Уфа</text>')
 svg.append('</g></svg>')
-(root/'public/evercoat-preview/assets/ufa-region.svg').write_text(''.join(svg))
+document=''.join(svg)
+(root/'public/evercoat-preview/assets/ufa-region.svg').write_text(document)
+# Some browsers do not propagate reduced-motion into an SVG image document.
+# A picture source selects a genuinely static asset before it is decoded.
+(root/'public/evercoat-preview/assets/ufa-region-static.svg').write_text(document.replace(animation,'').replace(marker,static_marker))
 print('Built offline Ufa map')
