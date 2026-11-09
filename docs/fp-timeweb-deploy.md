@@ -1,12 +1,12 @@
 # FP Group: installation through the Timeweb SSH console
 
-The user confirmed the document root `/home/c/cf86083/FPgroup/public_html` and showed successful installation of release `d797472` through Timeweb's web SSH console. Direct SSH from the execution environment has not connected. The new SEO release below has not yet been installed on Timeweb.
+The user confirmed the document root `/home/c/cf86083/FPgroup/public_html` and confirmed successful installation of release `6149288` through Timeweb's web SSH console. Direct SSH from the execution environment has not connected. The 9 November spacing/map update below has not yet been installed on Timeweb.
 
-`public/downloads/install-fp-timeweb.sh` installs reviewed release `6149288`. The archive SHA-256 is `9a4898d56fd22bdc78e895de215bb753203a4368085fe48fbaf7a7a5e0f84a36`. Download the installer using its immutable Git commit URL, verify its own published hash, and run it with the document-root path as its only argument.
+`public/downloads/install-fp-timeweb.sh` installs reviewed release `2a019a4`. The archive SHA-256 is `27cf9fac2ca77269240f7fd71951455e185e0aaaf74700a2b28fcb49dda58ae5`. Download the installer using its immutable Git commit URL, verify its own published hash, and run it with the document-root path as its only argument.
 
-Archive: https://raw.githubusercontent.com/thekingooo/site/6149288/public/downloads/fp-group-evercoat.zip
+Archive: https://raw.githubusercontent.com/thekingooo/site/2a019a4/public/downloads/fp-group-evercoat.zip
 
-This release adds the selected title/favicon, canonical URL, search description, structured company data, robots.txt, sitemap.xml and link previews. The existing service label becomes a stable H1. Before/after screenshots show identical pixels at the verified desktop and mobile widths. See `docs/fp-seo-review.md` for scope and checks.
+This release keeps the approved title/favicon and technical SEO for fp-group.su, matches section 05 spacing to the other sections without a scroll-height spacer, and animates the red Ufa marker with ripple rings. A static map is selected for reduced-motion preferences. Desktop/mobile layout, route gestures and animation checks passed; see `docs/fp-evercoat-preview.md`.
 
 The installer requires an existing, writable `public_html` directory, rejects a symlink document root, downloads and verifies the archive, and extracts it into a temporary sibling directory. Existing `.well-known` certificate-validation files and `.htaccess` web-server configuration are retained in the new root, preserving hosting-managed HTTPS redirects. The complete previous document root is moved into a private sibling directory named `.fp-backup.XXXXXXXX/public_html`, and the prepared site becomes the document root. A failed activation restores the previous root if the target is absent. Temporary download/extraction files are removed on exit. The installer prints the backup path on success; retain it for recovery.
 
