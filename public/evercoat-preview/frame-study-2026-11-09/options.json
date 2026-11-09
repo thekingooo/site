@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-09",
+  "kind": "ImageGen visual concepts; not implemented",
+  "reference": "public/evercoat-preview/preview.jpg",
+  "options": [
+    {
+      "displayed_number": 1,
+      "file": "01-gold-frame.png",
+      "source": "/workspace/generated_images/exec-9764d5e6-ebd3-4e65-beab-69456ace9999.png",
+      "direction": "Fine gold rounded frame"
+    },
+    {
+      "displayed_number": 2,
+      "file": "02-gold-capsule.png",
+      "source": "/workspace/generated_images/exec-36a61819-2af7-451c-9618-3273b919d220.png",
+      "direction": "Compact architectural capsule"
+    }
+  ]
+}
