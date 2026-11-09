@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-09",
+  "kind": "ImageGen visual concepts, not implemented website screenshots",
+  "reference": "public/evercoat-preview/preview.jpg",
+  "website_release_unchanged": "2a019a4",
+  "displayed_hero_order": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "favicon_is_separate": true,
+  "options": [
+    {
+      "number": "favicon",
+      "file": "favicon-white.png",
+      "generation_source": "/workspace/generated_images/exec-3bff7dac-4e42-4478-90f1-8df2a5766864.png",
+      "direction": "White monogram on original navy tile",
+      "sha256": "fc706dcfe6d7086a6d62c50551e026b7759c82ff227cb0271e696f2961bc7c47"
+    },
+    {
+      "number": 1,
+      "file": "01-white-sans.png",
+      "generation_source": "/workspace/generated_images/exec-13e80465-89da-4cc9-aeeb-28a434a2685a.png",
+      "direction": "White light upright sans-serif",
+      "sha256": "68aa1b961b94ca0e29cf3eafe9690d1d4852667621e4604d9dd601663a8a5f05"
+    },
+    {
+      "number": 2,
+      "file": "02-white-serif.png",
+      "generation_source": "/workspace/generated_images/exec-27fffcc1-a426-4f09-b10a-3bb6a41396a1.png",
+      "direction": "White upright serif",
+      "sha256": "78b55615b03503ab4fc8777beac145842609e0067bd199bda9f9a12fe5309b37"
+    },
+    {
+      "number": 3,
+      "file": "03-white-capitals.png",
+      "generation_source": "/workspace/generated_images/exec-4f65738a-b159-48e4-8be6-308d231fcdff.png",
+      "direction": "Smaller white geometric capitals",
+      "sha256": "4f5c5f848df9c3a7317486f3df4f8831371d1646894e3906c81d6c694278b160"
+    },
+    {
+      "number": 4,
+      "file": "04-warm-sans.png",
+      "generation_source": "/workspace/generated_images/exec-89d2935d-59ac-471a-b414-7a7b5a7d134b.png",
+      "direction": "Warm gold upright medium sans-serif",
+      "sha256": "87083d14dbde8ce1ee2077a223f78b239c38ba7ac9f0405c471cc76d9dc862b5"
+    }
+  ]
+}
