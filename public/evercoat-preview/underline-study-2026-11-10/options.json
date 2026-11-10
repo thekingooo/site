@@ -1,0 +1,35 @@
+{
+  "created": "2026-11-10",
+  "kind": "ImageGen concept mockups; not implemented in the production website",
+  "ordering": "Authoritative order of generated images displayed in chat",
+  "options": [
+    {
+      "displayed_option": 1,
+      "file": "01-white-capitals.png",
+      "generation_file": "exec-bc0399e1-11b9-4a80-9d96-75570196461b.png",
+      "reference": "../type-study-2026-11-09/03-white-capitals.png",
+      "description": "Белые прописные буквы, золотая линия по всей ширине"
+    },
+    {
+      "displayed_option": 2,
+      "file": "02-gold-capitals.png",
+      "generation_file": "exec-9a70ac2d-5c90-4c03-a767-54d2ff4dcc7c.png",
+      "reference": "../type-study-2026-11-09/03-white-capitals.png",
+      "description": "Золотые прописные буквы, подчёркнуто слово ОСТАЁТСЯ"
+    },
+    {
+      "displayed_option": 3,
+      "file": "03-white-sans.png",
+      "generation_file": "exec-d2b8b81c-d44a-4461-8d95-39ed4228727e.png",
+      "reference": "../type-study-2026-11-09/04-warm-sans.png",
+      "description": "Белый прямой шрифт, плавная золотая линия под словом остаётся"
+    },
+    {
+      "displayed_option": 4,
+      "file": "04-gold-sans.png",
+      "generation_file": "exec-bd77ae70-5303-454f-b6ac-ce30569fdbda.png",
+      "reference": "../type-study-2026-11-09/04-warm-sans.png",
+      "description": "Золотой прямой шрифт, тонкое подчёркивание с загнутыми краями"
+    }
+  ]
+}
