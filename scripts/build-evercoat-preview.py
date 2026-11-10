@@ -3,7 +3,7 @@ from html.parser import HTMLParser
 from html import escape
 from zipfile import ZipFile,ZipInfo,ZIP_DEFLATED
 from datetime import datetime
-import re,json,base64,subprocess,shutil
+import re,json,base64,subprocess,shutil,hashlib
 from evercoat_seo import build_seo
 root=Path(__file__).resolve().parents[1];src=root/'src/evercoat-preview';out=root/'public/evercoat-preview';assets=out/'assets'
 assets.mkdir(exist_ok=True,parents=True)
@@ -24,6 +24,11 @@ manifest=json.loads((out/'media/manifest.json').read_text())
 assert manifest['width']==1920 and manifest['height']==1080, 'Run prepare-evercoat-media.py first'
 icons=src/'icons.json'
 html=(src/'index.html').read_text()
+# New artwork must bypass long-lived browser caches after a hosting update.
+html=html.replace('@@FAVICON_VERSION@@',hashlib.sha256((src/'favicon.png').read_bytes()).hexdigest()[:12])
+for map_name in ['ufa-region.svg','ufa-region-static.svg']:
+ map_version=hashlib.sha256((assets/map_name).read_bytes()).hexdigest()[:12]
+ html=html.replace(f'assets/{map_name}"',f'assets/{map_name}?v={map_version}"')
 seo=json.loads((src/'seo.json').read_text())
 seo_head,robots,sitemap=build_seo(seo)
 html=html.replace('@@SEO_HEAD@@',seo_head)
@@ -74,6 +79,8 @@ html=html.replace('/* INLINE_JOURNEY */',(src/'journey.js').read_text())
 assert '@@' not in html
 (out/'index.html').write_text(html)
 readme='''FP GROUP — версия по записи Evercoat, 1 ноября 2026
+
+Обновление 10 ноября 2026: установлена выбранная белая монограмма FP на тёмно-синей плитке. Вместо тонких колец у отметки Уфы — мягкое красное свечение с градиентом, которое расширяется и плавно исчезает. Для фавиконки и карты добавлены версии адресов файлов, чтобы браузер загружал обновлённые изображения вместо старых из кеша. При системном уменьшении движения карта статична.
 
 Обновление 9 ноября 2026: блок 05 получил такие же внешние отступы, как соседние разделы, без растягивания на высоту окна и пустого запаса для прокрутки. Один жест колёсика по-прежнему переводит точку на один этап. Красная отметка Уфы плавно пульсирует с расходящимися кольцами; при системной настройке уменьшения движения карта статична.
 
