@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-10",
+  "purpose": "Five coordinated portrait interior keyframes for a separate mobile walkthrough video",
+  "generated_with": "ImageGen",
+  "website_release_unchanged": "6b322d4",
+  "files_are_unmodified_generation_outputs": true,
+  "keyframes": [
+    {
+      "sequence_order": 1,
+      "room": "Лобби",
+      "file": "01-lobby.png",
+      "width": 941,
+      "height": 1672,
+      "sha256": "5738632c60fa4fcf76b8f02f19e0b68e3032d7ef9a4205e3ff1ae92c6b84de34",
+      "generation_file": "exec-2d89bf5e-a2bd-4dae-99d4-a5ca7b8020ec.png",
+      "original_reference": "public/evercoat-preview/media/original-0.webp",
+      "next_room_reference": "exec-bcec05cd-f88b-4b24-861c-996321061322.png"
+    },
+    {
+      "sequence_order": 2,
+      "room": "Ресторан",
+      "file": "02-restaurant.png",
+      "width": 941,
+      "height": 1672,
+      "sha256": "6842156b57cd0f6520976333148fd95176e794db17e54f83569fc9c550e39ff0",
+      "generation_file": "exec-bcec05cd-f88b-4b24-861c-996321061322.png",
+      "original_reference": "public/evercoat-preview/media/original-1.webp",
+      "next_room_reference": "exec-6e57fbdd-f8bf-47d0-8ac7-2a349cffd6f5.png"
+    },
+    {
+      "sequence_order": 3,
+      "room": "Кафе",
+      "file": "03-cafe.png",
+      "width": 941,
+      "height": 1672,
+      "sha256": "6435be02e924872b8fbd8da468ceac9110c7a0b464c202a572e5b2615ab8dac2",
+      "generation_file": "exec-6e57fbdd-f8bf-47d0-8ac7-2a349cffd6f5.png",
+      "original_reference": "public/evercoat-preview/media/original-2.webp",
+      "next_room_reference": "exec-f22471aa-b591-4d91-bf73-486505ae9ceb.png"
+    },
+    {
+      "sequence_order": 4,
+      "room": "Офис",
+      "file": "04-office.png",
+      "width": 941,
+      "height": 1672,
+      "sha256": "3da77993079541b6b299327f4a5328f624815701ace8d24d65b88a11c8c3a46b",
+      "generation_file": "exec-f22471aa-b591-4d91-bf73-486505ae9ceb.png",
+      "original_reference": "public/evercoat-preview/media/original-3.webp",
+      "next_room_reference": "exec-5ca7451e-3ae7-4d72-a990-5a57086aea59.png"
+    },
+    {
+      "sequence_order": 5,
+      "room": "Номер отеля",
+      "file": "05-hotel.png",
+      "width": 941,
+      "height": 1672,
+      "sha256": "26230d4f0367fd2a63b40d5d51bf0b7f0072e5e6cb2ef9506e25ce45aa561110",
+      "generation_file": "exec-5ca7451e-3ae7-4d72-a990-5a57086aea59.png",
+      "original_reference": "public/evercoat-preview/media/original-4.webp",
+      "next_room_reference": null
+    }
+  ]
+}
